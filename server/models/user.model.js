@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt-nodejs')
+const bcrypt = require('bcrypt-nodejs');
 
 function userModel(sequelize, DataTypes) {
   const user = sequelize.define('user', {
@@ -10,24 +10,24 @@ function userModel(sequelize, DataTypes) {
         isEmail: true
       },
       set(val) {
-        this.setDataValue('email', val.toLowerCase())
+        this.setDataValue('email', val.toLowerCase());
       }
     },
     password: {
       type: DataTypes.STRING,
       validate: {
-	      len: [6, 100]
+        len: [6, 100]
       }
     },
     authMethod: {
-			type: DataTypes.STRING,
-			allowNull: false,
+      type: DataTypes.STRING,
+      allowNull: false,
       defaultValue: 'LOCAL'
     },
     status: {
-			type: DataTypes.STRING,
-			allowNull: false,
-			defaultValue: 'ACTIVE'
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: 'ACTIVE'
     }
   }, {
     tableName: 'users',

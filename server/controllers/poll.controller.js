@@ -42,7 +42,7 @@ function getPollsByUser(req, res) {
 
   Poll.findAll(query).then(polls => {
     res.json(polls);
-  }).catch(err => {
+  }).catch(() => {
     res.status(400).send({ msg: 'Error fetching user\'s polls' });
   });
 }

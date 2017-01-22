@@ -3,7 +3,7 @@
 ### Overview
 This is a project that will allow users to create, share and vote on different polls (Ranked Choice, Approval, FPTP) in the style of Doodle.
 
-It uses session-based authentication in Node/Express w/ Redis, and Postgres. The front-end will use React, and Redux if it needs it.
+It uses session-based authentication with Node/Express, Redis and Postgres. The front-end will use React, and Redux if need be.
 
 ### Use
 Clone the repo and install the dependencies with either `yarn` or `npm install`.
@@ -24,3 +24,9 @@ module.exports = {
 Make sure Redis and Postgres are running.
 
 Start up the server on `localhost:3000` with `yarn run start` or `npm run start`.
+
+### Tests
+Run `yarn run test`
+
+### Linting
+Run `yarn run lint:watch`

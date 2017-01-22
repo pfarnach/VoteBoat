@@ -5,7 +5,10 @@
   "license": "MIT",
   "scripts": {
     "start": "nodemon server/server.js",
-    "test": ""
+    "test": "clear && NODE_ENV=test mocha **/*.spec.js",
+    "test:watch": "nodemon --exec 'yarn test'",
+    "lint": "clear && eslint ./server --ext .js --cache",
+    "lint:watch": "onchange ./server --initial -- yarn run lint"
   },
   "dependencies": {
     "bcrypt-nodejs": "^0.0.3",
@@ -20,5 +23,15 @@
     "pg-hstore": "^2.3.2",
     "redis": "^2.6.5",
     "sequelize": "^3.29.0"
+  },
+  "devDependencies": {
+    "eslint": "~3.14.0",
+    "eslint-plugin-node": "~3.0.5",
+    "mocha": "~3.2.0",
+    "onchange": "~3.2.1",
+    "supertest-session": "^3.0.0"
+  },
+  "engines": {
+    "node": "6.9.1"
   }
 }

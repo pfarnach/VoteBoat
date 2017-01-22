@@ -10,13 +10,13 @@ function pollModel(sequelize, DataTypes) {
     description: {
       type: DataTypes.STRING,
       validate: {
-	      len: [1, 1000]
+        len: [1, 1000]
       }
     },
     status: {
-			type: DataTypes.STRING,
-			allowNull: false,
-			defaultValue: 'ACTIVE'
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: 'ACTIVE'
     }
   }, {
     tableName: 'polls',

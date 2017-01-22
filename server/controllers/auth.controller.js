@@ -1,7 +1,6 @@
-const config = require('../config');
 const User = require('../models').user;
 
-function signup(req, res, next) {
+function signup(req, res) {
 	const { email: rawEmail, password } = req.body;
 	const email = rawEmail.toLowerCase();
 
@@ -29,10 +28,10 @@ function signup(req, res, next) {
         }
 
         res.send({ loggedIn: true });
-      })
-		}).catch(err => {
+      });
+		}).catch(() => {
 			res.status(400).send({ error: 'Invalid email or password' });
-		})
+		});
 	});
 }
 

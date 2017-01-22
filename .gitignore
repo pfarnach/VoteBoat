@@ -2,3 +2,4 @@
 .vscode/
 node_modules/
 server/config.js
+.eslintcache

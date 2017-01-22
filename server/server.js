@@ -23,7 +23,7 @@ const redisSession = session({
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: false, /* process.env.NODE_ENV === 'production',  // for HTTPS */
+    secure: false, /* env === 'production',  // for HTTPS */
     maxAge: 604800
   },
   secret: config.store.SECRET_KEY
@@ -45,5 +45,7 @@ app.get('*', (req, res) => res.sendFile('index.html', { root: publicPath }));
 
 // Init db + run server
 models.sequelize.sync({ force: false }).then(() => {
-  app.listen(port, () => console.log(`Server listening on port ${port}`));
+  app.listen(port, () => console.log(`Server listening on port ${port}`));  // eslint-disable-line no-console
 });
+
+module.exports = app;
