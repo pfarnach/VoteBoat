@@ -18,7 +18,12 @@ function pollOptionModel(sequelize, DataTypes) {
       }
     }
   }, {
-    tableName: 'poll_options'
+    tableName: 'poll_options',
+    classMethods: {
+      associate(models) {
+        pollOption.hasMany(models.vote);
+      }
+    }
   });
 
   return pollOption;

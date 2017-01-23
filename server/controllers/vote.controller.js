@@ -20,17 +20,17 @@ function castVote(req, res) {
 }
 
 function validateVote(req, res, next) {
-  const { body: { pollId, votes }} = req;
+  const { params, body: { votes }} = req;
 
   const query = {
-    where: { id: pollId },
+    where: { id: params.pollId },
     include: [PollOption]
   };
 
   // Make sure all pollOption IDs in votes are actually in poll
   Poll.findOne(query).then(poll => {
     if (!poll) {
-      return res.status(400).send('Could not find poll with id ' + pollId);
+      return res.status(400).send('Could not find poll with id ' + params.pollId);
     }
 
     // Fetch poll's options to verify ids against what user is submitting

@@ -1,5 +1,5 @@
 const { pollTypes } = require('../keywords');
-const { poll: Poll, pollOption: PollOption } = require('../models');
+const { poll: Poll, pollOption: PollOption, vote: Vote } = require('../models');
 
 function create(req, res) {
   const { user, body: { title, description, pollType, pollOptions }} = req;
@@ -32,10 +32,17 @@ function create(req, res) {
     return Poll.findOne(query);
   }).then(newPoll => {
     res.status(201).json(newPoll);
-  }).catch(err => {
-    console.error(err);
+  }).catch(() => {
     res.status(400).send('Failed to create poll');
   });
+}
+
+function _isPollOptionsValid(pollOptions) {
+  if (pollOptions && pollOptions.length < 2) {
+    return false;
+  }
+
+  return pollOptions.every(option => typeof option === 'string' && option.length >= 1);
 }
 
 // Fetch polls for a given user and include poll options
@@ -75,16 +82,41 @@ function getPollById(req, res) {
   });
 }
 
-function _isPollOptionsValid(pollOptions) {
-  if (pollOptions && pollOptions.length < 2) {
-    return false;
-  }
+// TODO: Figure out data format to use for results
+function getPollResults(req, res) {
+  const { params: { pollId }} = req;
 
-  return pollOptions.every(option => typeof option === 'string' && option.length >= 1);
+  // TODO: Handle all 3 types of polls and move logic out to utils
+  const query = {
+    where: {
+      id: pollId
+    },
+    include: [{
+      model: PollOption,
+      include: [Vote]
+    }]
+  };
+
+  Poll.findOne(query).then(poll => {
+    if (!poll) {
+      return res.status(400).send('No poll with ID ' + pollId);
+    }
+
+    const voteCount = poll.pollOptions.reduce((acc, option) => {
+      acc[option.id] = option.votes.length;
+      return acc;
+    }, {});
+
+    res.json(voteCount);
+  }).catch(err => {
+    console.error(err);
+    res.status(500).send('Error calculating results');
+  });
 }
 
 module.exports = {
   create,
   getPollById,
-  getPollsByUser
+  getPollsByUser,
+  getPollResults
 };

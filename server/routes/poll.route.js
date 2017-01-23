@@ -10,6 +10,9 @@ routes.get('/', requireAuth, pollController.getPollsByUser);
 routes.get('/:pollId', pollController.getPollById);
 
 // Voting
-routes.post('/vote', voteController.validateVote, voteController.castVote);
+routes.post('/:pollId/vote', voteController.validateVote, voteController.castVote);
+
+// Results
+routes.get('/:pollId/results', pollController.getPollResults);
 
 module.exports = routes;

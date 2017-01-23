@@ -14,6 +14,7 @@ const routes = require('./routes');
 // Init
 const port = process.env.PORT || 3000;
 const publicPath = path.join(__dirname, '../public');
+const env = process.env.NODE_ENV;
 const app = express();
 
 // Session
@@ -30,7 +31,9 @@ const redisSession = session({
 });
 
 // Middleware
-app.use(morgan('dev'));
+if (env !== 'test') {
+  app.use(morgan('dev'));
+}
 app.use(bodyParser.json({ type: '*/*' }));
 app.use(express.static(publicPath));
 app.use(redisSession);
