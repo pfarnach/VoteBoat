@@ -1,5 +1,7 @@
 const bcrypt = require('bcrypt-nodejs');
 
+const { status } = require('../keywords');
+
 function userModel(sequelize, DataTypes) {
   const user = sequelize.define('user', {
     email: {
@@ -22,12 +24,18 @@ function userModel(sequelize, DataTypes) {
     authMethod: {
       type: DataTypes.STRING,
       allowNull: false,
-      defaultValue: 'LOCAL'
+      defaultValue: 'local',
+      validate: {
+        isIn: [['local', 'fb', 'twitter', 'google']]
+      }
     },
     status: {
       type: DataTypes.STRING,
       allowNull: false,
-      defaultValue: 'ACTIVE'
+      defaultValue: status.active,
+      validate: {
+        isIn: [[status.active, status.deleted, status.closed]]
+      }
     }
   }, {
     tableName: 'users',

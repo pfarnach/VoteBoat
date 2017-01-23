@@ -1,3 +1,5 @@
+const { pollTypes, status } = require('../keywords');
+
 function pollModel(sequelize, DataTypes) {
   const poll = sequelize.define('poll', {
     title: {
@@ -13,10 +15,24 @@ function pollModel(sequelize, DataTypes) {
         len: [1, 1000]
       }
     },
+    pollType: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        isIn: [[pollTypes.fptp, pollTypes.approval, pollTypes.ranked]]
+      }
+    },
+    allowMultiVote: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false
+    },
     status: {
       type: DataTypes.STRING,
       allowNull: false,
-      defaultValue: 'ACTIVE'
+      defaultValue: status.active,
+      validate: {
+        isIn: [[status.active, status.deleted, status.closed]]
+      }
     }
   }, {
     tableName: 'polls',

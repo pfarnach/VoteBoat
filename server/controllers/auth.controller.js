@@ -6,14 +6,14 @@ function signup(req, res) {
 
 	// Enforce email and password params
 	if (!email || !password) {
-		res.status(422).send({ error: 'You must provide a valid email and password' });
+		res.status(422).send('You must provide a valid email and password');
 	}
 
 	// See if user with given email exists
 	User.findOne({ where: { email }}).then(user => {
 		// If a user with email already exists, return error
 		if (user) {
-			return res.status(422).send({ error: 'Email is already in use' });
+			return res.status(422).send('Email is already in use');
 		}
 
 		// If a user with an email does NOT exist, create and save user record
@@ -24,13 +24,13 @@ function signup(req, res) {
 			// Respond to request indicating the user was created
 			req.login(newUser, err => {
         if (err) {
-          return res.status(400).send({ error: 'Serialization error' });
+          return res.status(400).send('Serialization error');
         }
 
         res.send({ loggedIn: true });
       });
 		}).catch(() => {
-			res.status(400).send({ error: 'Invalid email or password' });
+			res.status(400).send('Invalid email or password');
 		});
 	});
 }
@@ -41,12 +41,21 @@ function signin(req, res) {
 
 function signout(req, res) {
   req.session.destroy(() => {
-    res.send({ msg: 'Successfully signed out'});
+    res.send('Successfully signed out');
   });
+}
+
+function requireAuth(req, res, next) {
+  // req.user is set in passport deserializer
+  if (req.session && req.user && req.user.id) {
+    return next();
+  }
+  res.status(401).send();
 }
 
 module.exports = {
   signup,
   signin,
-  signout
+  signout,
+  requireAuth
 };

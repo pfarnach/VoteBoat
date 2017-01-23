@@ -19,9 +19,9 @@ describe('Routes', () => {
         .end(done);
     });
 
-    it('should still return index.html', done => {
+    it('should still return index.html if route not picked up by other routes', done => {
       session
-        .get('/randomletters')
+        .get('/randomletters123123')
         .expect('Content-Type', 'text/html; charset=UTF-8')
         .expect(200)
         .end(done);

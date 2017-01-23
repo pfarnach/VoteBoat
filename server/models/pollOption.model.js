@@ -1,3 +1,5 @@
+const { status } = require('../keywords');
+
 function pollOptionModel(sequelize, DataTypes) {
   const pollOption = sequelize.define('pollOption', {
     title: {
@@ -10,7 +12,10 @@ function pollOptionModel(sequelize, DataTypes) {
     status: {
 			type: DataTypes.STRING,
 			allowNull: false,
-			defaultValue: 'ACTIVE'
+			defaultValue: status.active,
+      validate: {
+        isIn: [[status.active, status.deleted, status.closed]]
+      }
     }
   }, {
     tableName: 'poll_options'

@@ -1,12 +1,21 @@
+const { pollTypes } = require('../keywords');
 const { poll: Poll, pollOption: PollOption } = require('../models');
 
 function create(req, res) {
-  const { user, body: { title, description, pollOptions }} = req;
+  const { user, body: { title, description, pollType, pollOptions }} = req;
+
+  if (!_isPollOptionsValid(pollOptions)) {
+    return res.status(400).send('Must include at least two valid poll options.');
+  }
+
+  const allowMultiVote = pollType === pollTypes.ranked || pollType === pollTypes.approval;
 
   // Create poll, bulk create poll options, and then return poll and poll options
   Poll.create({
     title,
     description,
+    pollType,
+    allowMultiVote,
     userId: (user && user.id) ? user.id : null
   }).then(newPoll => {
     const options = pollOptions.map(pollOption => ({ title: pollOption, pollId: newPoll.get('id') }));
@@ -17,7 +26,7 @@ function create(req, res) {
       where: {
         id: poll.id
       },
-      include: [{ model: PollOption }]
+      include: [PollOption]
     };
 
     return Poll.findOne(query);
@@ -25,7 +34,7 @@ function create(req, res) {
     res.status(201).json(newPoll);
   }).catch(err => {
     console.error(err);
-    res.status(400).send({ msg: 'Failed to create poll' });
+    res.status(400).send('Failed to create poll');
   });
 }
 
@@ -43,11 +52,39 @@ function getPollsByUser(req, res) {
   Poll.findAll(query).then(polls => {
     res.json(polls);
   }).catch(() => {
-    res.status(400).send({ msg: 'Error fetching user\'s polls' });
+    res.status(400).send('Error fetching user\'s polls');
   });
+}
+
+function getPollById(req, res) {
+  const { pollId } = req.params;
+
+  const query = {
+    where: {
+      id: pollId
+    },
+    include: [PollOption]
+  };
+
+  Poll.findOne(query).then(poll => {
+    if (!poll) {
+      return res.status(400).send('No poll with ID ' + pollId);
+    }
+
+    res.json(poll);
+  });
+}
+
+function _isPollOptionsValid(pollOptions) {
+  if (pollOptions && pollOptions.length < 2) {
+    return false;
+  }
+
+  return pollOptions.every(option => typeof option === 'string' && option.length >= 1);
 }
 
 module.exports = {
   create,
+  getPollById,
   getPollsByUser
 };
