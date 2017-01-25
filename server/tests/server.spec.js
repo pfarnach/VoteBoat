@@ -2,7 +2,7 @@ const superSession = require('supertest-session');
 
 const app = require('../server');
 
-describe('Route: /', () => {
+describe('Route: / (index route)', () => {
   let session;
 
   beforeEach(() => {

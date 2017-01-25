@@ -3,35 +3,19 @@ const express = require('express');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const passport = require('passport');
-const session = require('express-session');
-const redis = require('redis');
-const RedisStore = require('connect-redis')(session);
 
-const config = require('./config');
+if (process.env.NODE_ENV !== 'production') {
+  require('./config/env');
+}
 const models = require('./models');
 const routes = require('./routes');
+const redisSession = require('./config/session');
 
-// Init
-const port = process.env.PORT || 3000;
 const publicPath = path.join(__dirname, '../public');
-const env = process.env.NODE_ENV;
 const app = express();
 
-// Session
-const sessionStore = new RedisStore({ client: redis.createClient() });
-const redisSession = session({
-  store: sessionStore,
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    secure: false, /* env === 'production',  // for HTTPS */
-    maxAge: 604800
-  },
-  secret: config.store.SECRET_KEY
-});
-
 // Middleware
-if (env !== 'test') {
+if (process.env.NODE_ENV !== 'test') {
   app.use(morgan('dev'));
 }
 app.use(bodyParser.json({ type: '*/*' }));
@@ -48,7 +32,7 @@ app.get('*', (req, res) => res.sendFile('index.html', { root: publicPath }));
 
 // Init db + run server
 models.sequelize.sync({ force: false }).then(() => {
-  app.listen(port, () => console.log(`Server listening on port ${port}`));  // eslint-disable-line no-console
+  app.listen(process.env.PORT, () => console.log(`Server listening on port ${process.env.PORT}`));  // eslint-disable-line no-console
 });
 
 module.exports = app;

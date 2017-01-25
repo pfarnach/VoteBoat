@@ -2,11 +2,8 @@ const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
 
-const config = require('../config');
-
 // Init db
-const sequelize = new Sequelize(config.db.POSTGRES_URI, { logging: false });
-
+const sequelize = new Sequelize(process.env.DATABASE_URL, { logging: false });
 const db = {};
 
 fs

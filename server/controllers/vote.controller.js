@@ -13,9 +13,8 @@ function castVote(req, res) {
 
   Vote.bulkCreate(votesToMake).then(() => {
     res.status(201).send('Vote successfully cast.');
-  }).catch(err => {
-    console.error(err);
-    res.status(400).send('Error casting vote.');
+  }).catch(() => {
+    res.status(500).send('Error casting vote.');
   });
 }
 
@@ -50,9 +49,8 @@ function validateVote(req, res, next) {
     }
 
     next();
-  }).catch(err => {
-    console.error(err);
-    res.status(400).send('Error finding poll.');
+  }).catch(() => {
+    res.status(500).send('Error finding poll.');
   });
 }
 
