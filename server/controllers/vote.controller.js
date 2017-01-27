@@ -1,23 +1,30 @@
-const { poll: Poll, pollOption: PollOption, vote: Vote } = require('../models');
+const { get } = require('lodash');
+
+const {
+  poll: Poll,
+  pollOption: PollOption,
+  vote: Vote
+} = require('../models');
 
 function castVote(req, res) {
   const { user, body: { votes }} = req;
 
   const votesToMake = votes.map(vote => {
     return {
-      rank: vote.rank || null,
+      score: vote.score,
       pollOptionId: vote.pollOptionId,
-      userId: user && user.id ? user.id : null
+      userId: get(user, 'id', null)
     };
   });
 
-  Vote.bulkCreate(votesToMake).then(() => {
+  Vote.bulkCreate(votesToMake, { validate: true }).then(() => {
     res.status(201).send('Vote successfully cast.');
   }).catch(() => {
     res.status(500).send('Error casting vote.');
   });
 }
 
+// TODO: Should be able to move this to the model's "validate" method
 function validateVote(req, res, next) {
   const { params, body: { votes }} = req;
 

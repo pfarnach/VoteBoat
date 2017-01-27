@@ -1,7 +1,7 @@
 # Vote Boat
 
 ### Overview
-This is a project that will allow users to create, share and vote on different polls (Ranked Choice, Approval, FPTP) in the style of Doodle.
+This is a project that will allow users to create, share and vote on different polls (FPTP, Scored, Approval) in the style of Doodle.
 
 It uses session-based authentication with Node/Express, Redis and Postgres. The front-end will use React, and Redux if need be.
 

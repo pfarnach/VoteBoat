@@ -1,7 +1,7 @@
 module.exports = {
   pollTypes: {
     fptp: 'fptp',
-    ranked: 'ranked',
+    scored: 'scored',
     approval: 'approval'
   },
   status: {

@@ -19,12 +19,22 @@ function pollModel(sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        isIn: [[pollTypes.fptp, pollTypes.approval, pollTypes.ranked]]
+        isIn: [[pollTypes.fptp, pollTypes.approval, pollTypes.scored]]
       }
     },
     allowMultiVote: {
       type: DataTypes.BOOLEAN,
       allowNull: false
+    },
+    endTime: {
+      type: DataTypes.DATE,
+      validate: {
+        isInFuture(val) {
+          if (val < new Date()) {
+            throw new Error('Poll\'s end time must be in the future');
+          }
+        }
+      }
     },
     status: {
       type: DataTypes.STRING,

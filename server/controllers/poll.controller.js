@@ -1,14 +1,16 @@
+const { get } = require('lodash');
+
 const { pollTypes } = require('../keywords');
 const { poll: Poll, pollOption: PollOption, vote: Vote } = require('../models');
 
 function create(req, res) {
-  const { user, body: { title, description, pollType, pollOptions }} = req;
+  const { user, body: { title, description, endTime, pollType, pollOptions }} = req;
 
   if (!_isPollOptionsValid(pollOptions)) {
     return res.status(400).send('Must include at least two valid poll options.');
   }
 
-  const allowMultiVote = pollType === pollTypes.ranked || pollType === pollTypes.approval;
+  const allowMultiVote = pollType === pollTypes.scored || pollType === pollTypes.approval;
 
   // Create poll, bulk create poll options, and then return poll and poll options
   Poll.create({
@@ -16,10 +18,11 @@ function create(req, res) {
     description,
     pollType,
     allowMultiVote,
-    userId: (user && user.id) ? user.id : null
+    endTime,
+    userId: get(user, 'id')
   }).then(newPoll => {
     const options = pollOptions.map(pollOption => ({ title: pollOption, pollId: newPoll.get('id') }));
-    return Promise.all([PollOption.bulkCreate(options), newPoll]);
+    return Promise.all([PollOption.bulkCreate(options, { validate: true }), newPoll]);
   }).then(resp => {
     const poll = resp[1];
     const query = {

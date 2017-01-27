@@ -2,11 +2,12 @@ const { status } = require('../keywords');
 
 function voteModel(sequelize, DataTypes) {
   const vote = sequelize.define('vote', {
-    // In case this is a vote for a ranked poll
-    rank: {
+    // In case this is a vote for a scored poll
+    score: {
       type: DataTypes.INTEGER,
       validate: {
-        min: 1
+        min: 1,
+        max: 5
       }
     },
     status: {

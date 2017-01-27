@@ -1,12 +1,14 @@
 const routes = require('express').Router();
 
-const { requireAuth } = require('../controllers/auth.controller');
-const pollController = require('../controllers/poll.controller');
-const voteController = require('../controllers/vote.controller');
+const {
+  pollController,
+  voteController,
+  authController
+ } = require('../controllers');
 
 // Polls
 routes.post('/', pollController.create);
-routes.get('/', requireAuth, pollController.getPollsByUser);
+routes.get('/', authController.requireAuth, pollController.getPollsByUser);
 routes.get('/:pollId', pollController.getPollById);
 
 // Voting

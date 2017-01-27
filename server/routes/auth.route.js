@@ -2,7 +2,7 @@ const routes = require('express').Router();
 const passport = require('passport');
 
 require('../services/passport.service');
-const authController = require('../controllers/auth.controller');
+const { authController } = require('../controllers');
 
 const requireSignin = passport.authenticate('local');
 
