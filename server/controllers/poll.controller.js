@@ -1,6 +1,7 @@
 const { get } = require('lodash');
 
 const { pollTypes } = require('../keywords');
+const { results } = require('../utils');
 const { poll: Poll, pollOption: PollOption, vote: Vote } = require('../models');
 
 function create(req, res) {
@@ -105,12 +106,8 @@ function getPollResults(req, res) {
       return res.status(400).send('No poll with ID ' + pollId);
     }
 
-    const voteCount = poll.pollOptions.reduce((acc, option) => {
-      acc[option.id] = option.votes.length;
-      return acc;
-    }, {});
-
-    res.json(voteCount);
+    const pollResults = results.countResults(poll);
+    res.json(pollResults);
   }).catch(err => {
     console.error(err);
     res.status(500).send('Error calculating results');

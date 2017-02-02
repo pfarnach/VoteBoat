@@ -2,6 +2,7 @@ const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
+const helmet = require('helmet');
 const passport = require('passport');
 
 if (process.env.NODE_ENV !== 'production') {
@@ -18,6 +19,7 @@ const app = express();
 if (process.env.NODE_ENV !== 'test') {
   app.use(morgan('dev'));
 }
+app.use(helmet());
 app.use(bodyParser.json({ type: '*/*' }));
 app.use(express.static(publicPath));
 app.use(redisSession);

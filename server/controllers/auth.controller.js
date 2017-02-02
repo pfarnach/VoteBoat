@@ -46,8 +46,7 @@ function signout(req, res) {
 }
 
 function requireAuth(req, res, next) {
-  // req.user is set in passport deserializer
-  if (req.session && req.user && req.user.id) {
+  if (req.isAuthenticated()) {
     return next();
   }
   res.status(401).send();
