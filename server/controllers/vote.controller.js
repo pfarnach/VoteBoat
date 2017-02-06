@@ -1,4 +1,5 @@
 const { get } = require('lodash');
+const { pollTypes } = require('../keywords');
 
 const {
   poll: Poll,
@@ -51,8 +52,14 @@ function validateVote(req, res, next) {
       return res.status(400).send('Issue with submitted option IDs');
     }
 
+    // Checks if multi-vote cast for non-multi vote poll type (e.g. approval)
     if (!poll.allowMultiVote && submittedOptionIds.length !== 1) {
-      return res.status(400).send('Poll type does not support multiple choices.');
+      return res.status(400).send('Poll type does not allow multiple choices.');
+    }
+
+    // Checks if score poll vote have scores (field validation handled by model)
+    if (poll.pollType === pollTypes.scored && !votes.every(vote => Number.isInteger(vote.score))) {
+      return res.status(400).send('Poll type requires valid scores for each vote.');
     }
 
     next();

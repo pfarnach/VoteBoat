@@ -86,7 +86,6 @@ function getPollById(req, res) {
   });
 }
 
-// TODO: Figure out data format to use for results
 function getPollResults(req, res) {
   const { params: { pollId }} = req;
 
