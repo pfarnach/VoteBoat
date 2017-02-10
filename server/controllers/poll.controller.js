@@ -88,8 +88,6 @@ function getPollById(req, res) {
 
 function getPollResults(req, res) {
   const { params: { pollId }} = req;
-
-  // TODO: Handle all 3 types of polls and move logic out to utils
   const query = {
     where: {
       id: pollId

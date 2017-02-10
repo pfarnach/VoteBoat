@@ -1,5 +1,7 @@
 .DS_Store
 .vscode/
+.eslintcache
+
 node_modules/
 server/config/env.js
-.eslintcache
+public/dist/
