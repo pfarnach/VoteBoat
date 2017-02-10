@@ -4,4 +4,3 @@
 
 node_modules/
 server/config/env.js
-public/dist/

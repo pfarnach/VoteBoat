@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack:///webpack:///public/src/components/Test/public/src/components/Test/Test.sass"],"names":[],"mappings":";;AAAA;EACE,4BAA2B,EAAI","file":"main.css","sourcesContent":[".test-two {\n  background-color: lightblue; }\n\n\n\n// WEBPACK FOOTER //\n// webpack:///public/src/components/Test/public/src/components/Test/Test.sass"],"sourceRoot":""}
