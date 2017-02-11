@@ -4,6 +4,7 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
 const passport = require('passport');
+const compression = require('compression');
 
 if (process.env.NODE_ENV !== 'production') {
   require('./config/env');
@@ -34,6 +35,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 app.use(helmet());
+app.use(compression());
 app.use(bodyParser.json({ type: '*/*' }));
 app.use(express.static(publicPath));
 app.use(redisSession);
