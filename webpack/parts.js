@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 
 exports.definePlugin = function definePlugin(isProd) {
@@ -10,6 +11,26 @@ exports.definePlugin = function definePlugin(isProd) {
         'process.env': {
           NODE_ENV: JSON.stringify(isProd ? 'production' : 'development')
         }
+      })
+    ]
+  };
+};
+
+exports.commonsChunk = function commonsChunk() {
+  return {
+    plugins: [
+      new webpack.optimize.CommonsChunkPlugin({
+        name: 'vendor'
+      })
+    ]
+  };
+};
+
+exports.htmlPlugin = function htmlPlugin() {
+  return {
+    plugins: [
+      new HtmlWebpackPlugin({
+        template: 'public/index.html'
       })
     ]
   };
@@ -26,8 +47,19 @@ exports.babel = function babel() {
         }
       ]
     }
-  }
-}
+  };
+};
+
+exports.resolve = function() {
+  return {
+    resolve: {
+      extensions: ['.js'],
+      alias: {
+        utils: path.resolve(__dirname, '../public/src/style/utils')
+      }
+    }
+  };
+};
 
 exports.sourceMap = function sourceMap(isProd) {
   // Options: https://webpack.github.io/docs/configuration.html

@@ -1,0 +1,5 @@
+--require babel-register
+--require ignore-styles
+--colors
+--recursive
+--require ./public/mocha.config.js

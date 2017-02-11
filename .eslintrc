@@ -1,10 +1,6 @@
 {
-  "plugins": ["node"],
-  "extends": ["eslint:recommended", "plugin:node/recommended"],
   "rules": {
-    "no-console": [2, { "allow": ["warn", "error"] }],
-    "node/no-unpublished-require": 0,
-    "semi": 2
+    "no-console": [2, { "allow": ["warn", "error"] }]
   },
   "globals": {
     "it": true,

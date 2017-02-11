@@ -1,10 +1,16 @@
+import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
 
-import globalStyles from './src/style/app.sass';
-import Test from './src/components/Test/Test';
+import './src/style/global.sass';
+import store from './src/store';
+
+import LandingPage from './src/components/LandingPage/LandingPage';
 
 ReactDOM.render(
-  <Test />,
+  <Provider store={ store }>
+    <LandingPage />
+  </Provider>,
   document.getElementById('react-root')
 );

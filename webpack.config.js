@@ -1,7 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const parts = require('./webpack/parts');
 const vendorRegistry = require('./webpack/vendorRegistry');
@@ -21,17 +20,7 @@ const config = {
   output: {
     path: PATHS.dist,
     filename: '[name].js'
-  },
-
-  plugins: [
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor'
-    }),
-
-    new HtmlWebpackPlugin({
-      template: 'public/index.html'
-    })
-  ]
+  }
 };
 
 function makeConfig() {
@@ -41,7 +30,10 @@ function makeConfig() {
       return merge(
         config,
         parts.babel(),
+        parts.commonsChunk(),
+        parts.htmlPlugin(),
         parts.definePlugin(true),
+        parts.resolve(),
         parts.sourceMap(true),
         parts.css(PATHS.public, PATHS.globalStyles),
         parts.minify()
@@ -52,7 +44,10 @@ function makeConfig() {
       return merge(
         config,
         parts.babel(),
+        parts.commonsChunk(),
+        parts.htmlPlugin(),
         parts.definePlugin(false),
+        parts.resolve(),
         parts.sourceMap(false),
         parts.css(PATHS.public, PATHS.globalStyles)
       );
