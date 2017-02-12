@@ -4,8 +4,9 @@
   "main": "server.js",
   "license": "MIT",
   "scripts": {
-    "build": "webpack",
-    "start": "NODE_ENV=development nodemon server/server.js",
+    "build": "rimraf public/dist && webpack",
+    "client": "webpack-dev-server",
+    "server": "NODE_ENV=development nodemon server/server.js",
     "test:client": "clear && NODE_ENV=test mocha --opts ./public/mocha.opts public/src/**/*.spec.js",
     "test:client:watch": "nodemon --exec 'yarn test:client'",
     "test:server": "NODE_ENV=test mocha server/**/*.spec.js",
@@ -32,6 +33,7 @@
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-redux": "^5.0.2",
+    "react-router": "^3.0.2",
     "redis": "^2.6.5",
     "redux": "^3.6.0",
     "redux-form": "^6.5.0",
@@ -64,6 +66,7 @@
     "onchange": "~3.2.1",
     "postcss-loader": "^1.2.2",
     "react-addons-test-utils": "^15.4.2",
+    "rimraf": "^2.5.4",
     "sass-loader": "^5.0.1",
     "sinon": "^1.17.7",
     "sinon-chai": "^2.8.0",
@@ -71,6 +74,7 @@
     "supertest-session": "^3.0.0",
     "webpack": "^2.2.1",
     "webpack-dev-middleware": "^1.10.0",
+    "webpack-dev-server": "^2.3.0",
     "webpack-merge": "^2.6.1"
   },
   "engines": {

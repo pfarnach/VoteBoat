@@ -19,7 +19,7 @@ const config = {
 
   output: {
     path: PATHS.dist,
-    filename: '[name].js'
+    filename: '[name].[chunkhash].js'
   }
 };
 
@@ -49,7 +49,8 @@ function makeConfig() {
         parts.definePlugin(false),
         parts.resolve(),
         parts.sourceMap(false),
-        parts.css(PATHS.public, PATHS.globalStyles)
+        parts.css(PATHS.public, PATHS.globalStyles),
+        parts.devServer()
       );
   }
 }

@@ -20,7 +20,7 @@ exports.commonsChunk = function commonsChunk() {
   return {
     plugins: [
       new webpack.optimize.CommonsChunkPlugin({
-        name: 'vendor'
+        names: ['vendor', 'manifest']
       })
     ]
   };
@@ -77,6 +77,19 @@ exports.minify = function minify() {
         }
       })
     ]
+  };
+};
+
+exports.devServer = function devServer() {
+  return {
+    devServer: {
+      historyApiFallback: true,
+      contentBase: './public',
+      proxy: {
+        '/api': 'http://localhost:3000'
+      }
+    },
+    stats: 'minimal'
   };
 };
 

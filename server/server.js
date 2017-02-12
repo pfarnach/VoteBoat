@@ -23,21 +23,10 @@ if (process.env.NODE_ENV !== 'test') {
   app.use(morgan('dev'));
 }
 
-// Webpack middleware for development
-if (process.env.NODE_ENV === 'development') {
-  const webpackMiddleware = require('webpack-dev-middleware');
-  const webpack = require('webpack');
-  const webpackConfig = require('../webpack.config');
-  app.use(webpackMiddleware(
-    webpack(webpackConfig),
-    { quiet: true }
-  ));
-}
-
+app.use('/public', express.static(publicPath));
 app.use(helmet());
 app.use(compression());
 app.use(bodyParser.json({ type: '*/*' }));
-app.use(express.static(publicPath));
 app.use(redisSession);
 
 // Init passport session
