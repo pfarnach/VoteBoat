@@ -1,14 +1,20 @@
 import React from 'react';
-import { Route, IndexRoute } from 'react-router';
+import { Route, Switch } from 'react-router-dom';
 
+import App from './components/App/App';
 import LandingPage from './components/LandingPage/LandingPage';
+import PollDashboard from './components/PollDashboard/PollDashboard';
 
-const routes = (
-  <Route path="/" component={({ children }) => <div>Header <div>{children}</div></div>}>
-    <IndexRoute component={LandingPage} />
-    <Route path="about" component={() => <div>About page!</div>} />
-    <Route path="*" component={() => <div>Not found</div>} />
-  </Route>
+// React router v4 - https://reacttraining.com/react-router/
+const rootRoutes = (
+  <Switch>
+    <Route path="/" exact component={LandingPage} />
+    <Route path="/about" exact component={() => <div>Example About Page route</div>} />
+    <Route path="/poll/:pollId" component={PollDashboard} />
+    <Route component={() => <div>Placeholder 404 page</div>} />
+  </Switch>
 );
 
-export default routes;
+const baseRoute = <Route path="/" render={(props) => <App {...props}>{rootRoutes}</App>} />;
+
+export default baseRoute;

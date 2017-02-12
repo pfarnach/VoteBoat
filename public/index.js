@@ -2,15 +2,16 @@ import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { Router, browserHistory } from 'react-router'
+import { BrowserRouter as Router } from 'react-router-dom';
 
-import './src/style/global.sass';
 import store from './src/store';
 import routes from './src/routes';
 
+import './src/style/global.sass';
+
 ReactDOM.render(
-  <Provider store={ store }>
-    <Router history={browserHistory} routes={routes} />
+  <Provider store={store}>
+    <Router>{routes}</Router>
   </Provider>,
   document.getElementById('react-root')
 );

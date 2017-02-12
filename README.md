@@ -5,8 +5,10 @@ This is a project that will allow users to create, share and vote on different p
 
 It uses session-based authentication with Node/Express, Redis and Postgres. The frontend is built with React/Redux.
 
-### Use
+### Setup
 Clone the repo and install the dependencies with either `yarn` or `npm install`.
+
+Make sure Redis and Postgres are running.
 
 You'll need to set some environment variables.  To do this, create an `env.js` file in the `/server/config` directory that looks like:
 ```
@@ -25,9 +27,10 @@ if (env === 'development') {
 process.env.VOTEBOAT_SECRET = 'your secret here';
 ```
 
-Make sure Redis and Postgres are running.
+### Run project
+Start up the express server on `localhost:3000` with `yarn run server`.
 
-Start up the server on `localhost:3000` with `yarn run start` or `npm run start`.
+And for easier client-side development, you can also run webpack dev server on `localhost:8080` with `yarn run client`.
 
 ### Tests
 Run server tests: `yarn run test:server`
