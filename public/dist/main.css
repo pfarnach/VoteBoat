@@ -1,18 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic&subset=latin);.LandingHero__container__3qeUe {
-  max-width: 720px;
-  margin: 0 auto;
-  text-align: center; }
-input.react-tagsinput-input {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 10px;
-  width: 100%; }
-.LandingPage__test-class__39J38 {
-  background-color: lightblue;
-  color: #000; }
-.PollDashboard__container__O94et {
-  background-color: lightgreen; }
- /*
+@import url(https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic&subset=latin);.LandingHero__container__3qeUe{max-width:720px;margin:0 auto;text-align:center}input.react-tagsinput-input{box-sizing:border-box;margin:0;padding:10px;width:100%}.LandingPage__test-class__39J38{background-color:#add8e6;color:#000}.PollDashboard__container__O94et{background-color:#90ee90} /*
  * # Semantic UI - 2.2.4
  * https://github.com/Semantic-Org/Semantic-UI
  * http://www.semantic-ui.com/

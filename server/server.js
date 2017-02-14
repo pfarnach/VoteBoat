@@ -23,9 +23,9 @@ if (process.env.NODE_ENV !== 'test') {
   app.use(morgan('dev'));
 }
 
+app.use(compression());
 app.use(express.static(publicPath));
 app.use(helmet());
-app.use(compression());
 app.use(bodyParser.json({ type: '*/*' }));
 app.use(redisSession);
 
