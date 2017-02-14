@@ -3,7 +3,7 @@ const { pollTypes } = require('../keywords');
 
 const {
   poll: Poll,
-  pollOption: PollOption,
+  pollChoice: PollChoice,
   vote: Vote
 } = require('../models');
 
@@ -13,7 +13,7 @@ function castVote(req, res) {
   const votesToMake = votes.map(vote => {
     return {
       score: vote.score,
-      pollOptionId: vote.pollOptionId,
+      pollChoiceId: vote.pollChoiceId,
       userId: get(user, 'id', null)
     };
   });
@@ -31,29 +31,29 @@ function validateVote(req, res, next) {
 
   const query = {
     where: { id: params.pollId },
-    include: [PollOption]
+    include: [PollChoice]
   };
 
-  // Make sure all pollOption IDs in votes are actually in poll
+  // Make sure all pollChoice IDs in votes are actually in poll
   Poll.findOne(query).then(poll => {
     if (!poll) {
       return res.status(400).send('Could not find poll with id ' + params.pollId);
     }
 
-    // Fetch poll's options to verify ids against what user is submitting
-    const pollOptionIds = poll.pollOptions.map(pollOption => pollOption.id);
-    const submittedOptionIds = votes.map(vote => vote.pollOptionId);
+    // Fetch poll's choices to verify ids against what user is submitting
+    const pollChoiceIds = poll.pollChoices.map(pollChoice => pollChoice.id);
+    const submittedChoiceIds = votes.map(vote => vote.pollChoiceId);
 
     // Check if submitted ids belong to poll and if right length for corresponding poll type
-    const optionIdsValid = submittedOptionIds.every(id => pollOptionIds.includes(id));
-    const optionIdsDuplicate = (new Set(submittedOptionIds)).size !== submittedOptionIds.length;
+    const choiceIdsValid = submittedChoiceIds.every(id => pollChoiceIds.includes(id));
+    const choiceIdsDuplicate = (new Set(submittedChoiceIds)).size !== submittedChoiceIds.length;
 
-    if (!optionIdsValid || optionIdsDuplicate || submittedOptionIds.length < 1) {
-      return res.status(400).send('Issue with submitted option IDs');
+    if (!choiceIdsValid || choiceIdsDuplicate || submittedChoiceIds.length < 1) {
+      return res.status(400).send('Issue with submitted choice IDs');
     }
 
     // Checks if multi-vote cast for non-multi vote poll type (e.g. approval)
-    if (!poll.allowMultiVote && submittedOptionIds.length !== 1) {
+    if (!poll.allowMultiVote && submittedChoiceIds.length !== 1) {
       return res.status(400).send('Poll type does not allow multiple choices.');
     }
 

@@ -2,18 +2,18 @@ const { get } = require('lodash');
 
 const { pollTypes } = require('../keywords');
 const { results } = require('../utils');
-const { poll: Poll, pollOption: PollOption, vote: Vote } = require('../models');
+const { poll: Poll, pollChoice: PollChoice, vote: Vote } = require('../models');
 
 function create(req, res) {
-  const { user, body: { title, description, endTime, pollType, pollOptions }} = req;
+  const { user, body: { title, description, endTime, pollType, pollChoices }} = req;
 
-  if (!_isPollOptionsValid(pollOptions)) {
-    return res.status(400).send('Must include at least two valid poll options.');
+  if (!_isPollChoicesValid(pollChoices)) {
+    return res.status(400).send('Must include at least two valid poll choices.');
   }
 
   const allowMultiVote = pollType === pollTypes.scored || pollType === pollTypes.approval;
 
-  // Create poll, bulk create poll options, and then return poll and poll options
+  // Create poll, bulk create poll choice, and then return poll and poll choice
   Poll.create({
     title,
     description,
@@ -22,15 +22,15 @@ function create(req, res) {
     endTime,
     userId: get(user, 'id')
   }).then(newPoll => {
-    const options = pollOptions.map(pollOption => ({ title: pollOption, pollId: newPoll.get('id') }));
-    return Promise.all([PollOption.bulkCreate(options, { validate: true }), newPoll]);
+    const choice = pollChoices.map(pollChoice => ({ title: pollChoice, pollId: newPoll.get('id') }));
+    return Promise.all([PollChoice.bulkCreate(choice, { validate: true }), newPoll]);
   }).then(resp => {
     const poll = resp[1];
     const query = {
       where: {
         id: poll.id
       },
-      include: [PollOption]
+      include: [PollChoice]
     };
 
     return Poll.findOne(query);
@@ -41,15 +41,15 @@ function create(req, res) {
   });
 }
 
-function _isPollOptionsValid(pollOptions) {
-  if (pollOptions && pollOptions.length < 2) {
+function _isPollChoicesValid(pollChoices) {
+  if (pollChoices && pollChoices.length < 2) {
     return false;
   }
 
-  return pollOptions.every(option => typeof option === 'string' && option.length >= 1);
+  return pollChoices.every(choice => typeof choice === 'string' && choice.length >= 1);
 }
 
-// Fetch polls for a given user and include poll options
+// Fetch polls for a given user and include poll choices
 function getPollsByUser(req, res) {
   const { user } = req;
 
@@ -57,7 +57,7 @@ function getPollsByUser(req, res) {
     where: {
       userId: user.id
     },
-    include: [PollOption]
+    include: [PollChoice]
   };
 
   Poll.findAll(query).then(polls => {
@@ -74,7 +74,7 @@ function getPollById(req, res) {
     where: {
       id: pollId
     },
-    include: [PollOption]
+    include: [PollChoice]
   };
 
   Poll.findOne(query).then(poll => {
@@ -93,7 +93,7 @@ function getPollResults(req, res) {
       id: pollId
     },
     include: [{
-      model: PollOption,
+      model: PollChoice,
       include: [Vote]
     }]
   };

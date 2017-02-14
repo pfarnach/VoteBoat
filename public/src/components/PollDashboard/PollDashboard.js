@@ -1,7 +1,9 @@
 import React, { PropTypes, Component } from 'react';
 import { Dimmer, Loader } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 
 import { getPoll } from '../../api/pollAPI';
+import styles from './PollDashboard.sass';
 
 class PollDashboard extends Component {
   constructor(props) {
@@ -37,15 +39,19 @@ class PollDashboard extends Component {
       );
     }
 
-    // TODO: Handle case where poll doesn't exist (bad request or not authorized)
+    if (!poll) {
+      return <div>No data available for poll.</div>;
+    }
+
     // TODO: Decide how to display poll/voting form here
     return (
-      <div>
+      <div className={styles.container}>
+        <Link to="/">Back to Home</Link>
         <div>Title: {poll.title}</div>
         <div>Description: {poll.description}</div>
         <div>Poll Type: {poll.pollType}</div>
         <div>Choices:
-          {poll.pollOptions.map(choice => (
+          {poll.pollChoices.map(choice => (
             <div key={choice.id}>{choice.title}</div>
           ))}
         </div>

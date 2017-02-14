@@ -49,7 +49,7 @@ function pollModel(sequelize, DataTypes) {
     classMethods: {
       associate(models) {
         poll.belongsTo(models.user);
-        poll.hasMany(models.pollOption);
+        poll.hasMany(models.pollChoice);
       }
     }
   });

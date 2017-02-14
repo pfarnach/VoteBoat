@@ -1,7 +1,7 @@
 const { status } = require('../keywords');
 
-function pollOptionModel(sequelize, DataTypes) {
-  const pollOption = sequelize.define('pollOption', {
+function pollChoiceModel(sequelize, DataTypes) {
+  const pollChoice = sequelize.define('pollChoice', {
     title: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -18,15 +18,15 @@ function pollOptionModel(sequelize, DataTypes) {
       }
     }
   }, {
-    tableName: 'poll_options',
+    tableName: 'poll_choices',
     classMethods: {
       associate(models) {
-        pollOption.hasMany(models.vote);
+        pollChoice.hasMany(models.vote);
       }
     }
   });
 
-  return pollOption;
+  return pollChoice;
 }
 
-module.exports = pollOptionModel;
+module.exports = pollChoiceModel;

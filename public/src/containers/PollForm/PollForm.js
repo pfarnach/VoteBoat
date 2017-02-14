@@ -31,12 +31,12 @@ export class PollFormPure extends Component {
     const {
       title,
       description,
-      options: pollOptions,
+      choices: pollChoices,
       pollType: { value: pollType },
     } = form;
 
     // puts payload into shape that endpoint expects
-    const poll = { title, description, pollOptions, pollType };
+    const poll = { title, description, pollChoices, pollType };
 
     this.setState({ isCreating: true });
 
@@ -74,9 +74,9 @@ export class PollFormPure extends Component {
           <Field name="description" component={FormInput} />
         </div>
         <div>
-          <label htmlFor="options">Options</label>
+          <label htmlFor="choices">Poll Choices</label>
           <Field
-            name="options"
+            name="choices"
             component={FormTagsInput}
           />
         </div>
@@ -85,7 +85,7 @@ export class PollFormPure extends Component {
           <Field
             name="pollType"
             component={FormDropdown}
-            options={this.pollTypes}
+            choices={this.pollTypes}
             placeholder="Select a Poll Type"
           />
         </div>
@@ -103,6 +103,6 @@ export default reduxForm({
   form: 'createPollForm',
   initialValues: {
     pollType: {},
-    options: [],
+    choices: [],
   },
 })(PollFormPure);

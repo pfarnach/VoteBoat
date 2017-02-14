@@ -3,15 +3,15 @@ import { Dropdown } from 'semantic-ui-react';
 
 
 const FormDropdown = (props) => {
-  const { input: { value: option, onChange }, options, placeholder } = props;
+  const { input: { value: choice, onChange }, choices, placeholder } = props;
 
   return (
     <Dropdown
       selection
-      text={option.text}
-      value={option.value}
+      text={choice.text}
+      value={choice.value}
       onChange={(e, selected) => onChange(selected)}
-      options={options}
+      options={choices}
       placeholder={placeholder}
     />
   );
@@ -22,7 +22,7 @@ FormDropdown.propTypes = {
     value: PropTypes.object,
     onChange: PropTypes.func,
   }),
-  options: PropTypes.arrayOf(PropTypes.object),
+  choices: PropTypes.arrayOf(PropTypes.object),
   placeholder: PropTypes.string,
 };
 

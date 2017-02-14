@@ -11,15 +11,15 @@ describe('util: results', () => {
     beforeEach(() => {
       mockPoll = {
         pollType: pollTypes.fptp,
-        pollOptions: [
+        pollChoices: [
           {
             id: 1,
-            title: 'opt1',
+            title: 'choice1',
             votes: [{ id: 1, score: 1}, { id: 2, score: 3}, { id: 3, score: 5}]
           },
           {
             id: 2,
-            title: 'opt2',
+            title: 'choice2',
             votes: [{ id: 4, score: 2}]
           }
         ]
@@ -39,11 +39,11 @@ describe('util: results', () => {
       const expectedPollResults = {
         "count": {
           "1": {
-            title: "opt1",
+            title: "choice1",
             total: 3
           },
           "2": {
-            title: "opt2",
+            title: "choice2",
             total: 1
           }
         },
@@ -59,11 +59,11 @@ describe('util: results', () => {
       const expectedPollResults = {
         "count": {
           "1": {
-            title: "opt1",
+            title: "choice1",
             total: 9
           },
           "2": {
-            title: "opt2",
+            title: "choice2",
             total: 2
           }
         },

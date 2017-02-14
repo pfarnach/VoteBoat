@@ -5,10 +5,10 @@ function countResults(poll) {
     // Same counting method for FPTP and Approval
     case pollTypes.fptp:
     case pollTypes.approval: {
-      const voteCount = poll.pollOptions.reduce((acc, option) => {
-        acc.count[option.id] = { title: option.title };
-        acc.count[option.id].total = option.votes.length;
-        acc.totalVotesCast += option.votes.length;
+      const voteCount = poll.pollChoices.reduce((acc, choice) => {
+        acc.count[choice.id] = { title: choice.title };
+        acc.count[choice.id].total = choice.votes.length;
+        acc.totalVotesCast += choice.votes.length;
 
         return acc;
       }, { count: {}, totalVotesCast: 0 });
@@ -18,13 +18,13 @@ function countResults(poll) {
 
     // Score voting count
     case pollTypes.scored: {
-      const voteCount = poll.pollOptions.reduce((acc, option) => {
-        acc.count[option.id] = { title: option.title };
-        acc.count[option.id].total = 0;
-        acc.totalVotesCast += option.votes.length;
+      const voteCount = poll.pollChoices.reduce((acc, choice) => {
+        acc.count[choice.id] = { title: choice.title };
+        acc.count[choice.id].total = 0;
+        acc.totalVotesCast += choice.votes.length;
 
-        // Adds up one poll option's score
-        option.votes.forEach(vote => acc.count[option.id].total += vote.score);
+        // Adds up one poll choice's score
+        choice.votes.forEach(vote => acc.count[choice.id].total += vote.score);
 
         return acc;
       }, { count: {}, totalVotesCast: 0 });

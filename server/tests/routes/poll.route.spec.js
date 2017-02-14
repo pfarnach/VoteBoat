@@ -5,8 +5,8 @@ const app = require('../../server');
 describe('Route: /api/poll', () => {
   let session;
   let pollId;
-  let pollOptionId1;
-  let pollOptionId2;
+  let pollChoiceId1;
+  let pollChoiceId2;
 
   beforeEach(() => {
     session = superSession(app);
@@ -19,33 +19,33 @@ describe('Route: /api/poll', () => {
         .send({
           description: 'my description3!',
           pollType: 'fptp',
-          pollOptions: ['opt1', 'opt2', 'opt3']
+          pollChoices: ['choice1', 'choice2', 'choice3']
         })
         .expect(400)
         .end(done);
     });
 
-    it('should not be able to create a poll w/ only 1 option', done => {
+    it('should not be able to create a poll w/ only 1 choice', done => {
       session
         .post('/api/poll')
         .send({
           title: 'my title',
           description: 'my description',
           pollType: 'fptp',
-          pollOptions: ['opt1']
+          pollChoices: ['choice1']
         })
         .expect(400)
         .end(done);
     });
 
-    it('should not be able to create a poll w/ only non-string options', done => {
+    it('should not be able to create a poll w/ only non-string choices', done => {
       session
         .post('/api/poll')
         .send({
           title: 'my title',
           description: 'my description',
           pollType: 'fptp',
-          pollOptions: ['opt1', 'opt2', 3]
+          pollChoices: ['choice1', 'choice2', 3]
         })
         .expect(400)
         .end(done);
@@ -58,39 +58,39 @@ describe('Route: /api/poll', () => {
           title: 'my title',
           description: 'my description',
           pollType: 'fptp',
-          pollOptions: ['opt1', 'opt2', 'opt3']
+          pollChoices: ['choice1', 'choice2', 'choice3']
         })
         .expect(201)
         .end((err, res) => {
           if (err) return done(err);
 
           pollId = res.body.id;
-          pollOptionId1 = res.body.pollOptions[0].id;
-          pollOptionId2 = res.body.pollOptions[1].id;
+          pollChoiceId1 = res.body.pollChoices[0].id;
+          pollChoiceId2 = res.body.pollChoices[1].id;
           done();
         });
     });
   });
 
   describe('/:pollId/vote', () => {
-    it('should not be able to cast vote with no options', done => {
+    it('should not be able to cast vote with no choices', done => {
       session
         .post(`/api/poll/${pollId}/vote`)
         .send({
           votes: [
-            // { pollOptionId }
+            // { pollChoiceId }
           ]
         })
         .expect(400)
         .end(done);
     });
 
-    it('should not be able to cast vote with invalid pollOptionId', done => {
+    it('should not be able to cast vote with invalid pollChoiceId', done => {
       session
         .post(`/api/poll/${pollId}/vote`)
         .send({
           votes: [
-            { pollOptionId: 9123512317 }
+            { pollChoiceId: 9123512317 }
           ]
         })
         .expect(400)
@@ -102,8 +102,8 @@ describe('Route: /api/poll', () => {
         .post(`/api/poll/${pollId}/vote`)
         .send({
           votes: [
-            { pollOptionId: pollOptionId1 },
-            { pollOptionId: pollOptionId2 }
+            { pollChoiceId: pollChoiceId1 },
+            { pollChoiceId: pollChoiceId2 }
           ]
         })
         .expect(400)
@@ -115,7 +115,7 @@ describe('Route: /api/poll', () => {
         .post(`/api/poll/${pollId}/vote`)
         .send({
           votes: [
-            { pollOptionId: pollOptionId1 }
+            { pollChoiceId: pollChoiceId1 }
           ]
         })
         .expect(201)

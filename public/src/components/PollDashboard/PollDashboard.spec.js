@@ -23,7 +23,7 @@ describe('Component: <PollDashboard />', () => {
 
     const poll = {
       title: 'test',
-      pollOptions: [],
+      pollChoices: [],
     };
 
     wrapper.setState({ isLoading: false, poll });

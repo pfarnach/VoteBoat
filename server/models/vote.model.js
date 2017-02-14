@@ -23,7 +23,7 @@ function voteModel(sequelize, DataTypes) {
     classMethods: {
       associate(models) {
         vote.belongsTo(models.user);
-        vote.belongsTo(models.pollOption);
+        vote.belongsTo(models.pollChoice);
       }
     }
   });
