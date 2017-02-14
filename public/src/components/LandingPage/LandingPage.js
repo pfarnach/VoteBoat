@@ -1,11 +1,14 @@
 import React from 'react';
 
+import LandingHero from '../LandingHero/LandingHero';
+import PollForm from '../../containers/PollForm/PollForm';
 import styles from './LandingPage.sass';
 
 const LandingPage = () => {
   return (
     <div className={styles.testClass}>
-      I am the landing page!!!
+      <LandingHero />
+      <PollForm />
     </div>
   );
 };

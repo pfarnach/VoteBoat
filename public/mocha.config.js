@@ -7,7 +7,6 @@ const sinonChai = require('sinon-chai');
 global.assert = chai.assert;
 global.expect = chai.expect;
 global.chai = chai;
-global.sinon = sinon;
 
 // DOM setup
 global.document = jsdom('');

@@ -93,6 +93,39 @@ exports.devServer = function devServer() {
   };
 };
 
+exports.fonts = function fonts() {
+  return {
+    module: {
+      rules: [
+        {
+          test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
+          loader: 'url-loader?limit=10000&mimetype=application/font-woff'
+        },
+        {
+          test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
+          loader: 'url-loader?limit=10000&mimetype=application/font-woff'
+        },
+        {
+          test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
+          loader: 'url-loader?limit=10000&mimetype=application/octet-stream'
+        },
+        {
+          test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
+          loader: 'file-loader'
+        },
+        {
+          test: /\.(png|jpg|gif)$/,
+          loader: 'file-loader'
+        },
+        {
+          test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+          loader: 'url-loader?limit=10000&mimetype=image/svg+xml'
+        }
+      ]
+    }
+  };
+};
+
 exports.css = function css(srcPath, globalStylesPath) {
   return {
     module: {

@@ -35,6 +35,7 @@ function makeConfig() {
         parts.definePlugin(true),
         parts.resolve(),
         parts.sourceMap(true),
+        parts.fonts(),
         parts.css(PATHS.public, PATHS.globalStyles),
         parts.minify()
       );
@@ -49,6 +50,7 @@ function makeConfig() {
         parts.definePlugin(false),
         parts.resolve(),
         parts.sourceMap(false),
+        parts.fonts(),
         parts.css(PATHS.public, PATHS.globalStyles),
         parts.devServer()
       );
