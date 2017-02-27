@@ -5,5 +5,8 @@ module.exports = [
   'lodash',
   'redux',
   'redux-form',
+  'react-router-dom',
+  'react-tagsinput',
   'redux-thunk',
+  'semantic-ui-react',
 ];

@@ -29,7 +29,8 @@ function signup(req, res) {
 
         res.send({ loggedIn: true });
       });
-		}).catch(() => {
+		}).catch(err => {
+      console.error(err);
 			res.status(400).send('Invalid email or password');
 		});
 	});
@@ -45,6 +46,10 @@ function signout(req, res) {
   });
 }
 
+function checkStatus(req, res) {
+  res.status(200).json({ loggedIn: req.isAuthenticated() })
+}
+
 function requireAuth(req, res, next) {
   if (req.isAuthenticated()) {
     return next();
@@ -56,5 +61,6 @@ module.exports = {
   signup,
   signin,
   signout,
-  requireAuth
+  requireAuth,
+  checkStatus
 };

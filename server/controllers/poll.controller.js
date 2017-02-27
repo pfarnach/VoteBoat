@@ -1,4 +1,4 @@
-const { get } = require('lodash');
+const { get, map } = require('lodash');
 
 const { pollTypes } = require('../keywords');
 const { results } = require('../utils');
@@ -104,6 +104,14 @@ function getPollResults(req, res) {
     }
 
     const pollResults = results.countResults(poll);
+    pollResults.count = map(pollResults.count, (data, id) => {
+      return {
+        id: parseInt(id),
+        title: data.title,
+        total: data.total
+      };
+    });
+
     res.json(pollResults);
   }).catch(err => {
     console.error(err);

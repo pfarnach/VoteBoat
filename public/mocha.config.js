@@ -1,3 +1,4 @@
+require('babel-polyfill');
 const chai = require('chai');
 const jsdom = require('jsdom').jsdom;
 const sinon = require('sinon');

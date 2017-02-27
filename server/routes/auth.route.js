@@ -10,5 +10,6 @@ const requireSignin = passport.authenticate('local');
 routes.post('/signup', authController.signup);
 routes.post('/signin', requireSignin, authController.signin);
 routes.get('/signout', authController.requireAuth, authController.signout);
+routes.get('/status', authController.checkStatus);
 
 module.exports = routes;

@@ -3,9 +3,7 @@ import { Field, reduxForm } from 'redux-form';
 import { Redirect } from 'react-router-dom';
 import { Button } from 'semantic-ui-react';
 
-import FormDropdown from '../../components/FormDropdown/FormDropdown';
-import FormInput from '../../components/FormInput/FormInput';
-import FormTagsInput from '../../components/FormTagsInput/FormTagsInput';
+import { FormDropdown, FormInput, FormTagsInput } from '../../components';
 import { createPoll } from '../../api/pollAPI';
 
 

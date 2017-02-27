@@ -6,8 +6,8 @@ function voteModel(sequelize, DataTypes) {
     score: {
       type: DataTypes.INTEGER,
       validate: {
-        min: 1,
-        max: 5
+        min: 0,
+        max: 4
       }
     },
     status: {

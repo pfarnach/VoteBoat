@@ -1,7 +1,7 @@
 import React from 'react';
 
-import LandingHero from '../LandingHero/LandingHero';
-import PollForm from '../../containers/PollForm/PollForm';
+import { LandingHero } from '../../components';
+import { PollForm } from '../../containers';
 import styles from './LandingPage.sass';
 
 const LandingPage = () => {

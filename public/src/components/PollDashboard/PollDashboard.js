@@ -1,8 +1,8 @@
 import React, { PropTypes, Component } from 'react';
-import { Dimmer, Loader } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
+import { Dimmer, Loader, Button } from 'semantic-ui-react';
 
-import { getPoll } from '../../api/pollAPI';
+import { getPoll, getPollResults } from '../../api/pollAPI';
+import { VotingForm, PollResults } from '../../components';
 import styles from './PollDashboard.sass';
 
 class PollDashboard extends Component {
@@ -12,6 +12,7 @@ class PollDashboard extends Component {
     this.state = {
       poll: null,
       isLoading: true,
+      pollResults: null,
     };
 
     this.pollId = this.props.match.params.pollId;
@@ -19,42 +20,43 @@ class PollDashboard extends Component {
 
   componentDidMount() {
     getPoll(this.pollId)
-      .then(poll => {
-        this.setState({ poll, isLoading: false });
-      })
+      .then(poll => this.setState({ poll, isLoading: false }))
       .catch(err => {
+        // TODO: Display error msg to user
         console.error('Error loading poll: ', err);
         this.setState({ isLoading: false });
       });
   }
 
+  fetchPollResults(pollId) {
+    getPollResults(pollId)
+      .then(res => this.setState({ pollResults: res }))
+      .catch(err => console.error('Error fetching poll results:', err));
+  }
+
   render() {
-    const { isLoading, poll } = this.state;
+    const { isLoading, poll, pollResults } = this.state;
 
     if (isLoading) {
-      return (
-        <Dimmer active inverted>
-          <Loader inverted />
-        </Dimmer>
-      );
+      return <Dimmer active inverted><Loader inverted /></Dimmer>;
     }
 
     if (!poll) {
       return <div>No data available for poll.</div>;
     }
 
-    // TODO: Decide how to display poll/voting form here
     return (
       <div className={styles.container}>
-        <Link to="/">Back to Home</Link>
         <div>Title: {poll.title}</div>
         <div>Description: {poll.description}</div>
         <div>Poll Type: {poll.pollType}</div>
-        <div>Choices:
-          {poll.pollChoices.map(choice => (
-            <div key={choice.id}>{choice.title}</div>
-          ))}
-        </div>
+        <hr />
+        <VotingForm poll={poll} />
+        <hr />
+        { pollResults &&
+          <PollResults results={pollResults} />
+        }
+        <Button onClick={() => this.fetchPollResults(poll.id)}>See Results</Button>
       </div>
     );
   }
