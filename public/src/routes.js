@@ -1,8 +1,8 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
-import { LandingPage, PollDashboard, UserDashboard } from './components';
-import { App } from './containers';
+import { LandingPage, PollDashboard } from './components';
+import { App, UserDashboard } from './containers';
 
 // React router v4 - https://reacttraining.com/react-router/
 const rootRoutes = (

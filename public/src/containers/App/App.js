@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import * as actions from '../../actions/auth.actions';
 import { AppHeader } from '../../components';
 
+import styles from './App.sass';
+
 
 export class App extends Component {
   componentDidMount() {
@@ -17,10 +19,10 @@ export class App extends Component {
       <div>
         { isLoading ?
           null :
-          <div>
+          <div className={styles.container}>
             <AppHeader />
-            { children }
-            App footer
+            <div className={styles.mainBody}>{ children }</div>
+            <div style={{ backgroundColor: 'lightgreen' }}>App footer</div>
           </div>
         }
       </div>

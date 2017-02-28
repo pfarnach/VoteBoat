@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Button, Modal } from 'semantic-ui-react';
+import { Redirect } from 'react-router-dom';
 
 import { AuthForm } from '../../components';
 import * as actions from '../../actions/auth.actions';
@@ -15,6 +16,7 @@ class AppHeader extends Component {
       password: '',
       modalOpen: false,
       authType: 'signup',
+      redirectOnSignOut: false,
     };
   }
 
@@ -31,10 +33,20 @@ class AppHeader extends Component {
     } else {
       this.props.signIn(email, password);
     }
+
+    this.setState({
+      email: '',
+      password: '',
+    });
   }
 
   signOut() {
     this.props.signOut();
+
+    // May be a better way of doing this but have to redirect by rendering <redirect />
+    this.setState({ redirectOnSignOut: true, modalOpen: false }, () => {
+      this.setState({ redirectOnSignOut: false });
+    });
   }
 
   openModal(isSignUp) {
@@ -45,8 +57,12 @@ class AppHeader extends Component {
   }
 
   render() {
-    const { email, password, modalOpen, authType } = this.state;
+    const { email, password, modalOpen, authType, redirectOnSignOut } = this.state;
     const { isSignedIn } = this.props;
+
+    if (redirectOnSignOut) {
+      return <Redirect to="/" />;
+    }
 
     return (
       <div className={styles.container}>

@@ -8,4 +8,3 @@ export { default as PollResults } from './PollResults/PollResults';
 export { default as VotingForm } from './VotingForm/VotingForm';
 export { default as AppHeader } from './AppHeader/AppHeader';
 export { default as AuthForm } from './AuthForm/AuthForm';
-export { default as UserDashboard } from './UserDashboard/UserDashboard';

@@ -39,6 +39,11 @@ function userModel(sequelize, DataTypes) {
     }
   }, {
     tableName: 'users',
+    classMethods: {
+      associate(models) {
+        user.hasMany(models.poll);
+      }
+    },
     instanceMethods: {
       comparePasswords(candidatePassword, cb) {
         bcrypt.compare(candidatePassword, this.password, (err, isMatch) => {

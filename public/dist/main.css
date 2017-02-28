@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic&subset=latin);input.react-tagsinput-input{box-sizing:border-box;margin:0;padding:10px;width:100%}.LandingHero__container__3qeUe{max-width:720px;margin:0 auto;text-align:center}.LandingPage__test-class__39J38{background-color:#add8e6;color:#000}.PollDashboard__container__O94et{background-color:#90ee90}.AppHeader__container__2yBRj{background-color:orange;display:-webkit-box;display:-ms-flexbox;display:flex}.AppHeader__container__2yBRj .AppHeader__title__1Dmrc{-webkit-box-flex:1;-ms-flex:1;flex:1} /*
+@import url(https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic&subset=latin);input.react-tagsinput-input{box-sizing:border-box;margin:0;padding:10px;width:100%}.LandingHero__container__3qeUe{max-width:720px;margin:0 auto;text-align:center}.App__container__1gOtJ{height:100%;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column;-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;-webkit-box-align:stretch;-ms-flex-align:stretch;align-items:stretch;-ms-flex-line-pack:stretch;align-content:stretch}.App__container__1gOtJ .App__main-body__1Mt_E{-webkit-box-flex:1;-ms-flex:1;flex:1}.LandingPage__test-class__39J38{background-color:#add8e6;color:#000}.PollDashboard__container__O94et{background-color:#90ee90}.AppHeader__container__2yBRj{background-color:orange;display:-webkit-box;display:-ms-flexbox;display:flex;height:45px}.AppHeader__container__2yBRj .AppHeader__title__1Dmrc{-webkit-box-flex:1;-ms-flex:1;flex:1} /*
  * # Semantic UI - 2.2.4
  * https://github.com/Semantic-Org/Semantic-UI
  * http://www.semantic-ui.com/
@@ -102,6 +102,12 @@ q:before, q:after {
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
-}
+}html, body {
+  width: 100%;
+  height: 100%; }
+  html #react-root, body #react-root {
+    height: 100%; }
+    html #react-root > div, body #react-root > div {
+      height: 100%; }
 
 /*# sourceMappingURL=main.css.map*/
