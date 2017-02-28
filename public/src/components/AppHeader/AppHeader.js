@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Button, Modal } from 'semantic-ui-react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 
 import { AuthForm } from '../../components';
 import * as actions from '../../actions/auth.actions';
@@ -66,9 +66,14 @@ class AppHeader extends Component {
 
     return (
       <div className={styles.container}>
-        <div className={styles.title}><h2>VoteBoat</h2></div>
+        <div className={styles.title}>
+          <Link to="/">VoteBoat</Link>
+        </div>
         { isSignedIn ?
-          <Button onClick={this.signOut.bind(this)}>Sign Out</Button> :
+          <div>
+            <Link to="/dashboard">Profile</Link>
+            <Button onClick={this.signOut.bind(this)}>Sign Out</Button>
+          </div> :
           <div>
             <Button primary onClick={() => this.openModal(true)}>Sign Up</Button>
             <Button secondary onClick={() => this.openModal(false)}>Sign In</Button>

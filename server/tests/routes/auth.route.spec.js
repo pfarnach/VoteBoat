@@ -1,6 +1,6 @@
 const superSession = require('supertest-session');
 
-const app = require('../../server');
+const app = require('../server.config');
 
 describe('Route: /api/auth', () => {
   let session;

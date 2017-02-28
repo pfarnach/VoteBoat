@@ -10,7 +10,7 @@ const rootRoutes = (
     <Route path="/" exact component={LandingPage} />
     <Route path="/about" exact component={() => <div>Example About Page route</div>} />
     <Route path="/poll/:pollId" component={PollDashboard} />
-    <Route path="/user" component={UserDashboard} />
+    <Route path="/dashboard" component={UserDashboard} />
     <Route component={() => <div>Placeholder 404 page</div>} />
   </Switch>
 );
