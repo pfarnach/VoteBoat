@@ -44,7 +44,8 @@
     "semantic-ui-react": "~0.64.8",
     "sequelize": "^3.29.0",
     "sinon": "^1.17.7",
-    "sinon-chai": "^2.8.0"
+    "sinon-chai": "^2.8.0",
+    "webpack": "^2.2.1"
   },
   "devDependencies": {
     "autoprefixer": "^6.7.2",
@@ -78,7 +79,6 @@
     "style-loader": "^0.13.1",
     "supertest-session": "^3.0.0",
     "url-loader": "^0.5.7",
-    "webpack": "^2.2.1",
     "webpack-dev-server": "^2.3.0",
     "webpack-merge": "^2.6.1"
   },
