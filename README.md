@@ -28,9 +28,9 @@ process.env.VOTEBOAT_SECRET = 'your secret here';
 ```
 
 ### Run project
-Start up the express server on `localhost:3000` with `yarn run server`.
+Start up the express server on `localhost:3000` with `yarn run dev:server`.
 
-And for easier client-side development, you can also run webpack dev server on `localhost:8080` with `yarn run client`.
+And for easier client-side development, you can also run webpack dev server on `localhost:8080` with `yarn run dev:client`.
 
 ### Tests
 Run server tests: `yarn run test:server`

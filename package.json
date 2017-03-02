@@ -4,9 +4,10 @@
   "main": "server/server.js",
   "license": "MIT",
   "scripts": {
-    "build": "rimraf public/dist && webpack",
-    "client": "webpack-dev-server",
-    "server": "NODE_ENV=development nodemon server/server.js",
+    "heroku-postbuild": "rimraf public/dist && webpack",
+    "start": "node server/server.js",
+    "dev:server": "NODE_ENV=development nodemon server/server.js",
+    "dev:client": "webpack-dev-server",
     "test:client": "clear && NODE_ENV=test mocha --opts ./public/mocha.opts public/src/**/*.spec.js",
     "test:client:watch": "nodemon --exec 'yarn test:client'",
     "test:server": "NODE_ENV=test mocha server/**/*.spec.js",
