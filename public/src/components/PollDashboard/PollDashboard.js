@@ -1,7 +1,8 @@
 import React, { PropTypes, Component } from 'react';
 import { Dimmer, Loader, Button } from 'semantic-ui-react';
+import cookie from 'js-cookie';
 
-import { getPoll, getPollResults } from '../../api/pollAPI';
+import { pollAPI } from '../../api';
 import { VotingForm, PollResults } from '../../components';
 import styles from './PollDashboard.sass';
 
@@ -9,17 +10,18 @@ class PollDashboard extends Component {
   constructor(props) {
     super(props);
 
+    this.pollId = this.props.match.params.pollId;
+
     this.state = {
       poll: null,
       isLoading: true,
       pollResults: null,
+      hasVoted: !!cookie.get(this.pollId),
     };
-
-    this.pollId = this.props.match.params.pollId;
   }
 
   componentDidMount() {
-    getPoll(this.pollId)
+    pollAPI.getPoll(this.pollId)
       .then(poll => this.setState({ poll, isLoading: false }))
       .catch(err => {
         // TODO: Display error msg to user
@@ -29,9 +31,16 @@ class PollDashboard extends Component {
   }
 
   fetchPollResults(pollId) {
-    getPollResults(pollId)
+    pollAPI.getPollResults(pollId)
       .then(res => this.setState({ pollResults: res }))
       .catch(err => console.error('Error fetching poll results:', err));
+  }
+
+  renderVotingForm() {
+    const { poll, hasVoted } = this.state;
+    return hasVoted ?
+      <div>You&apos;ve already voted in this poll!</div> :
+      <VotingForm poll={poll} />;
   }
 
   render() {
@@ -47,11 +56,13 @@ class PollDashboard extends Component {
 
     return (
       <div className={styles.container}>
-        <div>Title: {poll.title}</div>
-        <div>Description: {poll.description}</div>
-        <div>Poll Type: {poll.pollType}</div>
+        <div>
+          <div>Title: {poll.title}</div>
+          <div>Description: {poll.description}</div>
+          <div>Poll Type: {poll.pollType}</div>
+        </div>
         <hr />
-        <VotingForm poll={poll} />
+        { this.renderVotingForm() }
         <hr />
         { pollResults &&
           <PollResults results={pollResults} />

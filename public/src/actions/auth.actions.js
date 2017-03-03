@@ -1,5 +1,5 @@
 import { TYPES } from '../reducers/auth/auth.reducer';
-import * as authAPI from '../api/authAPI';
+import { authAPI } from '../api';
 
 export const signIn = (email, password) => {
   return async (dispatch) => {

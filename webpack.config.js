@@ -27,24 +27,24 @@ function makeConfig() {
   switch(process.env.npm_lifecycle_event) {
     // PRODUCTION
     case 'build':
+    case 'heroku-postbuild':
       return merge(
         config,
-        parts.babel(),
+        parts.babel(PATHS.public),
         parts.commonsChunk(),
         parts.htmlPlugin(),
         parts.definePlugin(true),
         parts.resolve(),
         parts.sourceMap(true),
         parts.fonts(),
-        parts.css(PATHS.public, PATHS.globalStyles),
-        parts.minify()
+        parts.css(PATHS.public, PATHS.globalStyles)
       );
 
     // DEVELOPMENT
     default:
       return merge(
         config,
-        parts.babel(),
+        parts.babel(PATHS.public),
         parts.commonsChunk(),
         parts.htmlPlugin(),
         parts.definePlugin(false),

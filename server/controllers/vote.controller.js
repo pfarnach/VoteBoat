@@ -62,7 +62,7 @@ function validateVote(req, res, next) {
       return res.status(400).send('Poll type requires valid scores for each vote.');
     }
 
-    next();
+    return next();
   }).catch(() => {
     res.status(500).send('Error finding poll.');
   });

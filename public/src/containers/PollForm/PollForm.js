@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom';
 import { Button } from 'semantic-ui-react';
 
 import { FormDropdown, FormInput, FormTagsInput } from '../../components';
-import { createPoll } from '../../api/pollAPI';
+import { pollAPI } from '../../api';
 
 
 // TODO: Form validation with redux-form
@@ -38,7 +38,7 @@ export class PollFormPure extends Component {
 
     this.setState({ isCreating: true });
 
-    createPoll(poll)
+    pollAPI.createPoll(poll)
       .then(res => {
         // TODO: Reset form in case they hit back button
         this.setState({ createdPoll: res });

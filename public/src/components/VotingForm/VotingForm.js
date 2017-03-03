@@ -1,8 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { Checkbox, Button } from 'semantic-ui-react';
 import { map } from 'lodash';
+import cookie from 'js-cookie';
 
-import { castVote } from '../../api/pollAPI';
+import { pollAPI } from '../../api';
 
 // TODO: FPTP - http://react.semantic-ui.com/modules/checkbox
 // TODO: Scored - https://css-tricks.com/styling-cross-browser-compatible-range-inputs-css/
@@ -27,6 +28,7 @@ class VotingForm extends Component {
       selected: [],
       score: defaultScore,
       submitting: false,
+      hasVoted: false,
     };
   }
 
@@ -71,8 +73,11 @@ class VotingForm extends Component {
     this.setState({ submitting: true });
 
     // api call
-    castVote(id, { votes })
-      .then(() => this.setState({ submitting: false }))
+    pollAPI.castVote(id, { votes })
+      .then(() => {
+        cookie.set(id, 'submitted');
+        this.setState({ submitting: false, hasVoted: true });
+      })
       .catch(err => {
         // TODO: Display error msg to user
         console.error('Error casting vote:', err);
@@ -131,7 +136,11 @@ class VotingForm extends Component {
 
   render() {
     const { poll } = this.props;
-    const { submitting } = this.state;
+    const { submitting, hasVoted } = this.state;
+
+    if (hasVoted) {
+      return <h2>Vote successfully cast!</h2>;
+    }
 
     return (
       <form onSubmit={this.handleSubmit.bind(this)}>
@@ -144,7 +153,8 @@ class VotingForm extends Component {
 
 VotingForm.propTypes = {
   poll: PropTypes.shape({
-    pollChoices: PropTypes.array,
+    pollChoices: PropTypes.array.isRequired,
+    id: PropTypes.number.isRequired,
   }),
 };
 

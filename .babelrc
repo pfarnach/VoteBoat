@@ -1,9 +1,17 @@
 {
-  "presets": ["stage-1", "react",
+  "presets": [
     ["env", {
+      "modules": false,
       "targets": {
         "browsers": ["last 2 versions"]
       }
-    }]
-  ]
+    }],
+    "stage-1",
+    "react"
+  ],
+  "env": {
+    "test": {
+      "presets": ["env"]
+    }
+  }
 }

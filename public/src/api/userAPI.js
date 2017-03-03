@@ -1,6 +1,10 @@
 import axios from 'axios';
 
-export function userInfo() {  // eslint-disable-line import/prefer-default-export
+function userInfo() {
   return axios.get('/api/user')
     .then(res => res.data);
 }
+
+export default {
+  userInfo,
+};

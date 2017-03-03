@@ -1,5 +1,5 @@
 import { TYPES } from '../reducers/user/user.reducer';
-import * as userAPI from '../api/userAPI';
+import { userAPI } from '../api';
 
 export const getUserInfo = () => {  // eslint-disable-line import/prefer-default-export
   return async (dispatch) => {

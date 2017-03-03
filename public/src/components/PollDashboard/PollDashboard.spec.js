@@ -24,6 +24,7 @@ describe('Component: <PollDashboard />', () => {
     const poll = {
       title: 'test',
       pollChoices: [],
+      id: 1,
     };
 
     wrapper.setState({ isLoading: false, poll });

@@ -36,14 +36,15 @@ exports.htmlPlugin = function htmlPlugin() {
   };
 };
 
-exports.babel = function babel() {
+exports.babel = function babel(src) {
   return {
     module: {
       rules: [
         {
           use: 'babel-loader',
           test: /\.js$/,
-          exclude: /node_modules/
+          exclude: /node_modules/,
+          include: src
         }
       ]
     }
@@ -65,18 +66,6 @@ exports.sourceMap = function sourceMap(isProd) {
   // Options: https://webpack.github.io/docs/configuration.html
   return {
     devtool: isProd ? 'source-map' : 'cheap-eval-source-map'
-  };
-};
-
-exports.minify = function minify() {
-  return {
-    plugins: [
-      new webpack.optimize.UglifyJsPlugin({
-        compressor: {
-          warnings: false
-        }
-      })
-    ]
   };
 };
 
