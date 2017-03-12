@@ -37,7 +37,8 @@ function makeConfig() {
         parts.resolve(),
         parts.sourceMap(true),
         parts.fonts(),
-        parts.css(PATHS.public, PATHS.globalStyles)
+        parts.css(PATHS.public, PATHS.globalStyles),
+        parts.purifyCSS(PATHS.public)
       );
 
     // DEVELOPMENT
