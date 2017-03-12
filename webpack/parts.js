@@ -172,7 +172,6 @@ function getStyleLoaders(isGlobalStyles) {
       loader: 'css-loader',
       options: isGlobalStyles ? {} : {
         sourceMap: true,
-        minimize: true,
         modules: true,
         importLoaders: 2,
         camelCase: true,
