@@ -1,10 +1,9 @@
 export { default as FormDropdown } from './FormDropdown/FormDropdown';
 export { default as FormInput } from './FormInput/FormInput';
+export { default as FormTextArea } from './FormTextArea/FormTextArea';
 export { default as FormTagsInput } from './FormTagsInput/FormTagsInput';
 export { default as LandingHero } from './LandingHero/LandingHero';
 export { default as LandingPage } from './LandingPage/LandingPage';
 export { default as PollDashboard } from './PollDashboard/PollDashboard';
 export { default as PollResults } from './PollResults/PollResults';
 export { default as VotingForm } from './VotingForm/VotingForm';
-export { default as AppHeader } from './AppHeader/AppHeader';
-export { default as AuthForm } from './AuthForm/AuthForm';

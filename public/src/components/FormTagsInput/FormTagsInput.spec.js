@@ -2,14 +2,14 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
 
-import FormInput from './FormInput';
+import FormTagsInput from './FormTagsInput';
 
-describe('Component: <FormInput />', () => {
+describe('Component: <FormTagsInput />', () => {
   const props = {};
 
   beforeEach(() => {
     props.input = {
-      value: '',
+      value: [],
       onChange: sinon.spy(),
     };
     props.meta = {
@@ -19,13 +19,13 @@ describe('Component: <FormInput />', () => {
   });
 
   it('should render', () => {
-    const wrapper = shallow(<FormInput {...props} />);
+    const wrapper = shallow(<FormTagsInput {...props} />);
     expect(wrapper).to.have.length(1);
   });
 
   it('should call onChange prop when change triggered', () => {
-    const wrapper = shallow(<FormInput {...props} />);
-    wrapper.find('Input').simulate('change');
+    const wrapper = shallow(<FormTagsInput {...props} />);
+    wrapper.find('TagsInput').simulate('change');
     expect(props.input.onChange).to.have.property('callCount', 1);
   });
 });

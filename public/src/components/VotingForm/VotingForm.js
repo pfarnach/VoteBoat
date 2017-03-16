@@ -4,8 +4,8 @@ import { map } from 'lodash';
 import cookie from 'js-cookie';
 
 import { pollAPI } from '../../api';
+import validateVoting from './validatingVoting';
 
-// TODO: FPTP - http://react.semantic-ui.com/modules/checkbox
 // TODO: Scored - https://css-tricks.com/styling-cross-browser-compatible-range-inputs-css/
 //              - http://danielstern.ca/range.css/#/
 
@@ -67,6 +67,13 @@ class VotingForm extends Component {
     } else {
       // For FPTP and Approval votes
       votes = selected.map(selectedId => ({ pollChoiceId: selectedId }));
+    }
+
+    // simple validation
+    const validationError = validateVoting(votes, pollType);
+
+    if (validationError) {
+      return;
     }
 
     // prevent another submit

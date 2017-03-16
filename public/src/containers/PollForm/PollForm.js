@@ -3,21 +3,21 @@ import { Field, reduxForm } from 'redux-form';
 import { Redirect } from 'react-router-dom';
 import { Button } from 'semantic-ui-react';
 
-import { FormDropdown, FormInput, FormTagsInput } from '../../components';
+import { FormDropdown, FormInput, FormTextArea, FormTagsInput } from '../../components';
 import { pollAPI } from '../../api';
+import validate from './formValidate';
 
 
 // TODO: Form validation with redux-form
+const pollTypes = [
+  { text: 'FPTP', value: 'fptp' },
+  { text: 'Scored', value: 'scored' },
+  { text: 'Approval', value: 'approval' },
+];
 
 export class PollFormPure extends Component {
   constructor(props) {
     super(props);
-
-    this.pollTypes = [
-      { text: 'FPTP', value: 'fptp' },
-      { text: 'Scored', value: 'scored' },
-      { text: 'Approval', value: 'approval' },
-    ];
 
     this.state = {
       isCreating: false,
@@ -69,21 +69,18 @@ export class PollFormPure extends Component {
         </div>
         <div>
           <label htmlFor="description">Description</label>
-          <Field name="description" component={FormInput} />
+          <Field name="description" component={FormTextArea} />
         </div>
         <div>
           <label htmlFor="choices">Poll Choices</label>
-          <Field
-            name="choices"
-            component={FormTagsInput}
-          />
+          <Field name="choices" component={FormTagsInput} />
         </div>
         <div>
           <label htmlFor="pollType">Poll Type</label>
           <Field
             name="pollType"
             component={FormDropdown}
-            choices={this.pollTypes}
+            choices={pollTypes}
             placeholder="Select a Poll Type"
           />
         </div>
@@ -100,7 +97,9 @@ PollFormPure.propTypes = {
 export default reduxForm({
   form: 'createPollForm',
   initialValues: {
+    title: '',
     pollType: {},
     choices: [],
   },
+  validate,
 })(PollFormPure);

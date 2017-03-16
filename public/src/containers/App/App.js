@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import * as actions from '../../actions/auth.actions';
-import { AppHeader } from '../../components';
+import { AppHeader } from '../';
 
 import styles from './App.sass';
 

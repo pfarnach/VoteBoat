@@ -20,16 +20,22 @@ class FormTagsInput extends Component {
   }
 
   render() {
-    const { input: { onChange } } = this.props;
+    const {
+      input: { onChange, value },
+      meta: { touched, error },
+    } = this.props;
 
     return (
-      <TagsInput
-        value={this.props.input.value}
-        onlyUnique
-        onChange={onChange}
-        tagProps={this.tagStyles}
-        inputProps={this.inputProps}
-      />
+      <div>
+        <TagsInput
+          value={value}
+          onChange={onChange}
+          tagProps={this.tagStyles}
+          inputProps={this.inputProps}
+          onlyUnique
+        />
+        {touched && (error && <span>{error}</span>)}
+      </div>
     );
   }
 }
@@ -38,6 +44,10 @@ FormTagsInput.propTypes = {
   input: PropTypes.shape({
     value: PropTypes.array,
     onChange: PropTypes.func,
+  }),
+  meta: PropTypes.shape({
+    touched: PropTypes.bool,
+    error: PropTypes.string,
   }),
 };
 

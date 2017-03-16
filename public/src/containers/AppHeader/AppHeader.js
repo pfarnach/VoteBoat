@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Button, Modal } from 'semantic-ui-react';
 import { Redirect, Link } from 'react-router-dom';
 
-import { AuthForm } from '../../components';
+import { AuthForm } from '../';
 import * as actions from '../../actions/auth.actions';
 import styles from './AppHeader.sass';
 
@@ -12,8 +12,6 @@ class AppHeader extends Component {
     super();
 
     this.state = {
-      email: '',
-      password: '',
       modalOpen: false,
       authType: 'signup',
       redirectOnSignOut: false,
@@ -22,22 +20,6 @@ class AppHeader extends Component {
 
   handleUpdate(email, password) {
     this.setState({ email, password });
-  }
-
-  async handleSubmit(e) {
-    const { email, password, authType } = this.state;
-    e.preventDefault();
-
-    if (authType === 'signup') {
-      this.props.signUp(email, password);
-    } else {
-      this.props.signIn(email, password);
-    }
-
-    this.setState({
-      email: '',
-      password: '',
-    });
   }
 
   signOut() {
@@ -57,7 +39,7 @@ class AppHeader extends Component {
   }
 
   render() {
-    const { email, password, modalOpen, authType, redirectOnSignOut } = this.state;
+    const { modalOpen, authType, redirectOnSignOut } = this.state;
     const { isSignedIn } = this.props;
 
     if (redirectOnSignOut) {
@@ -69,6 +51,7 @@ class AppHeader extends Component {
         <div className={styles.title}>
           <Link to="/">VoteBoat</Link>
         </div>
+
         { isSignedIn ?
           <div>
             <Link to="/dashboard">Profile</Link>
@@ -87,13 +70,7 @@ class AppHeader extends Component {
           >
             <Modal.Header>{ authType === 'signup' ? 'Sign up' : 'Sign in'}</Modal.Header>
             <Modal.Content>
-              <AuthForm
-                email={email}
-                password={password}
-                authType={authType}
-                handleSubmit={this.handleSubmit.bind(this)}
-                updateForm={this.handleUpdate.bind(this)}
-              />
+              <AuthForm authType={authType} />
             </Modal.Content>
           </Modal>
         }
@@ -107,9 +84,7 @@ const mapStateToProps = (state) => ({
 });
 
 AppHeader.propTypes = {
-  signIn: PropTypes.func.isRequired,
   signOut: PropTypes.func.isRequired,
-  signUp: PropTypes.func.isRequired,  // eslint-disable-line react/no-unused-prop-types
   isSignedIn: PropTypes.bool.isRequired,
 };
 
