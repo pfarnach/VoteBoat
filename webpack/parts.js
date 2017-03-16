@@ -2,7 +2,6 @@ const path = require('path');
 const glob = require('glob');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const PurifyCSSPlugin = require('purifycss-webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 
@@ -77,7 +76,7 @@ exports.devServer = function devServer() {
       historyApiFallback: true,
       contentBase: './public',
       proxy: {
-        '/api': 'http://localhost:3000'
+        '/api': 'http://localhost:4000'
       }
     },
     stats: 'minimal'
@@ -150,22 +149,6 @@ exports.css = function css(srcPath, globalStylesPath) {
   };
 };
 
-exports.purifyCSS = function purifyCSS(srcPath) {
-  return {
-    plugins: [
-      new PurifyCSSPlugin({
-        paths: glob.sync(
-          path.join(srcPath, '**', '*'),
-          { nodir: true }
-        ),
-        purifyOptions: {
-          whitelist: ['*PURIFY*']
-        }
-      })
-    ]
-  };
-}
-
 function getStyleLoaders(isGlobalStyles) {
   return [
     {
@@ -175,7 +158,7 @@ function getStyleLoaders(isGlobalStyles) {
         modules: true,
         importLoaders: 2,
         camelCase: true,
-        localIdentName: 'PURIFY__[name]__[local]__[hash:base64:5]'  // hook for PurifyCSS to whitelist css modules
+        localIdentName: '[name]__[hash:base64:5]'  // hook for PurifyCSS to whitelist css modules
       }
     },
     {

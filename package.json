@@ -74,7 +74,6 @@
     "node-sass": "^4.5.0",
     "onchange": "~3.2.1",
     "postcss-loader": "^1.2.2",
-    "purifycss-webpack": "^0.5.0",
     "react-addons-test-utils": "^15.4.2",
     "rimraf": "^2.5.4",
     "sass-loader": "^5.0.1",
