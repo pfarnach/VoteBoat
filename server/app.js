@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const helmet = require('helmet');
 const passport = require('passport');
 const compression = require('compression');
+const enforcesSSL = require('express-enforces-ssl');
 
 if (process.env.NODE_ENV !== 'production') {
   require('./config/env');
@@ -21,11 +22,15 @@ MIDDLEWARE
 */
 if (process.env.NODE_ENV !== 'test') {
   app.use(morgan('dev'));
+} else if (process.env.NODE_ENV === 'production') {
+  app.enable('trust proxy');
+  app.use(enforcesSSL());
 }
 
 app.use(compression());
-app.use(express.static(publicPath));
+app.disable('x-powered-by');  // removes x-powered-by header
 app.use(helmet());
+app.use(express.static(publicPath));
 app.use(bodyParser.json({ type: '*/*' }));
 app.use(redisSession);
 

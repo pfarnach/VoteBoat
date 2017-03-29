@@ -10,7 +10,7 @@ const redisSession = session({
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: false, /* process.env.NODE_ENV === 'production',  // for HTTPS */
+    secure: process.env.NODE_ENV === 'production',  // for HTTPS */
     maxAge: 604800
   },
   secret: process.env.VOTEBOAT_SECRET

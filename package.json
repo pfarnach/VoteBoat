@@ -23,6 +23,7 @@
     "connect-redis": "^3.2.0",
     "enzyme": "^2.7.1",
     "express": "^4.14.0",
+    "express-enforces-ssl": "^1.1.0",
     "express-session": "^1.14.2",
     "helmet": "^3.4.0",
     "js-cookie": "^2.1.3",
