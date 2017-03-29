@@ -22,7 +22,9 @@ MIDDLEWARE
 */
 if (process.env.NODE_ENV !== 'test') {
   app.use(morgan('dev'));
-} else if (process.env.NODE_ENV === 'production') {
+}
+
+if (process.env.NODE_ENV === 'production') {
   app.enable('trust proxy');
   app.use(enforcesSSL());
 }
