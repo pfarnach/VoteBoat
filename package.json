@@ -10,7 +10,7 @@
     "dev:client": "webpack-dev-server",
     "test:client": "clear && NODE_ENV=test mocha --opts ./public/mocha.opts public/src/**/*.spec.js",
     "test:client:watch": "nodemon --exec 'yarn test:client'",
-    "test:server": "NODE_ENV=test mocha server/**/*.spec.js",
+    "test:server": "NODE_ENV=test mocha ./server --recursive",
     "test:server:watch": "nodemon --exec 'yarn test:server'",
     "lint": "clear && eslint ./server ./public/src --ext .js --cache",
     "lint:watch": "onchange ./server ./public --initial -- yarn run lint"

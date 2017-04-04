@@ -4,7 +4,7 @@ const app = require('../server.config');
 
 describe('Route: /api/auth', () => {
   let session;
-  let authSession;
+  let authedSession;
 
   beforeEach(() => {
     session = superSession(app);
@@ -25,13 +25,13 @@ describe('Route: /api/auth', () => {
       .end(err => {
         if (err) return done(err);
 
-        authSession = session;
+        authedSession = session;
         return done();
       });
   });
 
   it('should be able to signout', done => {
-    authSession
+    authedSession
       .get('/api/auth/signout')
       .expect(200)
       .end(done);
