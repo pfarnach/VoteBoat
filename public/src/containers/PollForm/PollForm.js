@@ -2,8 +2,15 @@ import React, { Component, PropTypes } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { Redirect } from 'react-router-dom';
 import { Button } from 'semantic-ui-react';
+import moment from 'moment';
 
-import { FormDropdown, FormInput, FormTextArea, FormTagsInput } from '../../components';
+import {
+  FormDropdown,
+  FormInput,
+  FormTextArea,
+  FormTagsInput,
+  FormDateTime,
+} from '../../components';
 import { pollAPI } from '../../api';
 import validate from './formValidate';
 
@@ -31,10 +38,11 @@ export class PollFormPure extends Component {
       description,
       choices: pollChoices,
       pollType: { value: pollType },
+      endTime,
     } = form;
 
     // puts payload into shape that endpoint expects
-    const poll = { title, description, pollChoices, pollType };
+    const poll = { title, description, pollChoices, pollType, endTime };
 
     this.setState({ isCreating: true });
 
@@ -76,6 +84,10 @@ export class PollFormPure extends Component {
           <Field name="choices" component={FormTagsInput} />
         </div>
         <div>
+          <label htmlFor="endTime">Poll Choices</label>
+          <Field name="endTime" component={FormDateTime} />
+        </div>
+        <div>
           <label htmlFor="pollType">Poll Type</label>
           <Field
             name="pollType"
@@ -100,6 +112,7 @@ export default reduxForm({
     title: '',
     pollType: {},
     choices: [],
+    endTime: moment().startOf('hour').add(1, 'week').add(1, 'hour'),
   },
   validate,
 })(PollFormPure);

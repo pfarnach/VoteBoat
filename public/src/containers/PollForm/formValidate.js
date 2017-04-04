@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export default (form) => {
   const errors = {};
 
@@ -21,6 +23,12 @@ export default (form) => {
   // Poll type
   if (!form.pollType.value) {
     errors.pollType = 'Must select a poll type';
+  }
+
+  if (!moment.isMoment(form.endTime)) {
+    errors.endTime = 'Invalid date/time';
+  } else if (form.endTime.isBefore(new Date())) {
+    errors.endTime = 'Selected end time must be in the future';
   }
 
   return errors;
