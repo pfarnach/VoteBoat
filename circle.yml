@@ -6,3 +6,9 @@ deployment:
     branch: master
     heroku:
       appname: powerful-mountain-50720
+dependencies:
+  override:
+    - yarn
+test:
+  override:
+    - yarn run test:client
