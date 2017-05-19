@@ -28,11 +28,15 @@ const localLogin = new LocalStrategy(localOptions, (email, pw, done) => {
   });
 });
 
+const callbackUrlRoot = process.env.NODE_ENV === 'production' ?
+  'https://www.polltogether.org' :
+  'http://localhost:' + process.env.PORT;
+
 // Setup Facebook strategy
 const fbOptions = {
 	clientID: '430337357326530',
 	clientSecret: process.env.FB_SECRET_ID,
-	callbackURL: `http://localhost:${process.env.PORT}/api/auth/facebook/callback`,
+	callbackURL: `${callbackUrlRoot}/api/auth/facebook/callback`,
   display: 'popup',
 	profileFields: ['id', 'email', 'name'],
 	scope: ['email']
