@@ -13,7 +13,7 @@ const redisSession = session({
     secure: process.env.NODE_ENV === 'production',  // for HTTPS */
     maxAge: 604800
   },
-  secret: process.env.VOTEBOAT_SECRET
+  secret: process.env.POLLTOGETHER_SECRET
 });
 
 module.exports = redisSession;

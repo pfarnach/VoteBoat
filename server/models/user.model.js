@@ -29,6 +29,8 @@ function userModel(sequelize, DataTypes) {
         isIn: [['local', 'fb', 'twitter', 'google']]
       }
     },
+    fbID: DataTypes.STRING,
+    fbToken: DataTypes.STRING,
     status: {
       type: DataTypes.STRING,
       allowNull: false,

@@ -1,6 +1,5 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import sinon from 'sinon';
 
 import { AuthFormPure } from './AuthForm';
 
@@ -8,12 +7,8 @@ describe('Component: <AuthFormPure />', () => {
   const props = {};
 
   beforeEach(() => {
-    props.authType = 'signin';
-    props.signIn = sinon.spy();
-    props.signUp = sinon.spy();
-    props.handleSubmit = sinon.spy();
-    props.isSigningIn = false;
-    props.authError = null;
+    props.isSignedIn = false;
+    props.location = { search: '' };
   });
 
   it('should render', () => {
@@ -23,18 +18,23 @@ describe('Component: <AuthFormPure />', () => {
 
   it('should have two Field components', () => {
     const wrapper = shallow(<AuthFormPure {...props} />);
-    expect(wrapper.find('Field')).to.have.length(2);
+    expect(wrapper.find('Button')).to.have.length(1);
   });
 
-  it('should render correct button based on authType', () => {
+  it('should render <Redirect /> if signed in', () => {
+    props.isSignedIn = true;
     const wrapper = shallow(<AuthFormPure {...props} />);
-    const btn = wrapper.find('Button');
-    expect(btn.children().node).to.equal('Sign in');
+    expect(wrapper.find('Redirect')).to.have.length(1);
   });
 
-  it('should call onSubmit when form is submitted', () => {
+  it('should only render error message if there\'s an error in the URL query string', () => {
     const wrapper = shallow(<AuthFormPure {...props} />);
-    wrapper.find('form').simulate('submit');
-    expect(props.handleSubmit).to.have.property('callCount', 1);
+    const errorMsg = wrapper.find('#error-msg').first();
+    expect(errorMsg.text()).to.equal('');
+
+    props.location.search = '?error=true';
+    const wrapper2 = shallow(<AuthFormPure {...props} />);
+    const errorMsg2 = wrapper2.find('#error-msg').first();
+    expect(errorMsg2.text()).to.equal('Email permission is required');
   });
 });

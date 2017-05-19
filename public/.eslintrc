@@ -10,6 +10,7 @@
     "react/require-default-props": 0
   },
   "globals": {
-    "expect": false
+    "expect": false,
+    "window": false
   }
 }

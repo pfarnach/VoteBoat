@@ -1,83 +1,50 @@
-import React, { PropTypes, Component } from 'react';
-import { Field, reduxForm } from 'redux-form';
+import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { flow } from 'lodash';
 import { Button } from 'semantic-ui-react';
+import { Redirect } from 'react-router-dom';
+import URLSearchParams from 'url-search-params';
 
-import validate from './validateAuthForm';
-import * as actions from '../../actions/auth.actions';
-import { FormInput } from '../../components';
+export const AuthFormPure = (props) => {
+  const { isSignedIn, location: { search } } = props;
 
-export class AuthFormPure extends Component {
-  handleSubmit(form) {
-    const { email, password } = form;
-    const { authType } = this.props;
+  let error = false;
 
-    if (authType === 'signup') {
-      this.props.signUp(email, password);
-    } else {
-      this.props.signIn(email, password);
-    }
+  if (search) {
+    const parsedSearchString = new URLSearchParams(search.substring(1));
+    error = !!parsedSearchString.get('error');
   }
 
-  render() {
-    const { handleSubmit, authType, isSigningIn, authError } = this.props;
-
-    return (
-      <form onSubmit={handleSubmit(this.handleSubmit.bind(this))} noValidate>
-        <div>
-          <label htmlFor="email">Email</label>
-          <Field
-            name="email"
-            type="email"
-            placeholder="Email"
-            component={FormInput}
-          />
-        </div>
-        <div>
-          <label htmlFor="password">Password</label>
-          <Field
-            name="password"
-            type="password"
-            placeholder="Password"
-            component={FormInput}
-          />
-        </div>
-
-        { authError &&
-          <div>{authError}</div>
-        }
-
-        <Button type="submit" disabled={isSigningIn}>
-          { authType === 'signup' ? 'Sign up' : 'Sign in'}
-        </Button>
-      </form>
-    );
+  if (isSignedIn) {
+    return <Redirect to="/dashboard" />;
   }
-}
 
-const mapStateToProps = (state) => ({
-  isSigningIn: state.auth.isSigningIn,
-  authError: state.auth.authError,
+  return (
+    <div>
+      { error &&
+        <div id="error-msg">Email permission is required</div>
+      }
+      <Button
+        onClick={() => window.open(
+          `/api/auth/facebook${error ? '-rerequest' : ''}`,
+          '_blank',
+          'height=650,width=540',
+        )}
+      >
+        Connect with Facebook
+      </Button>
+    </div>
+  );
+};
+
+const mapStateToProps = state => ({
+  isSignedIn: state.auth.isSignedIn,
 });
 
 AuthFormPure.propTypes = {
-  authType: PropTypes.string.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
-  signIn: PropTypes.func.isRequired,
-  signUp: PropTypes.func.isRequired,
-  isSigningIn: PropTypes.bool.isRequired,
-  authError: PropTypes.string,
+  isSignedIn: PropTypes.bool.isRequired,
+  location: PropTypes.shape({
+    search: PropTypes.string,
+  }).isRequired,
 };
 
-export default flow(
-  reduxForm({
-    form: 'authForm',
-    initialValues: {
-      email: '',
-      password: '',
-    },
-    validate,
-  }),
-  connect(mapStateToProps, actions),
-)(AuthFormPure);
+export default connect(mapStateToProps)(AuthFormPure);

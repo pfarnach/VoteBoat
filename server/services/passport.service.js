@@ -1,5 +1,6 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
+const FacebookStrategy = require('passport-facebook').Strategy;
 
 const User = require('../models').user;
 
@@ -27,6 +28,45 @@ const localLogin = new LocalStrategy(localOptions, (email, pw, done) => {
   });
 });
 
+// Setup Facebook strategy
+const fbOptions = {
+	clientID: '430337357326530',
+	clientSecret: process.env.FB_SECRET_ID,
+	callbackURL: `http://localhost:${process.env.PORT}/api/auth/facebook/callback`,
+  display: 'popup',
+	profileFields: ['id', 'email', 'name'],
+	scope: ['email']
+};
+
+const fbLogin = new FacebookStrategy(fbOptions, (accessToken, refreshToken, profile, done) => {
+	User.findOne({ where: { fbID: profile.id }}).then(user => {
+		if (user) {
+			// Was previously authenticated
+			done(null, user);
+		} else {
+      const { emails, id } = profile;
+
+			// If no user, create one -- but must grant email access
+			if (!emails || !emails[0]) {
+				return done(null, null, { error: 'Email access is required' });
+			}
+
+			User.create({
+				fbID: id,
+				fbToken: accessToken,
+				email: emails[0].value,
+				authMethod: 'fb'
+			}).then(createdUser => {
+				done(null, createdUser);
+			}).catch(err => {
+				done(err);
+			});
+		}
+	}).catch(err => {
+		done(err);
+	});
+});
+
 // Passport serializer/deserializer
 passport.serializeUser((user, done) => {
   done(null, user.get('id'));
@@ -39,3 +79,4 @@ passport.deserializeUser((id, done) => {
 });
 
 passport.use(localLogin);
+passport.use(fbLogin);
